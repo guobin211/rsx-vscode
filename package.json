@@ -61,7 +61,6 @@
         "@types/node": "^22.10.2",
         "tsx": "^4.19.2",
         "@types/vscode": "1.88.0",
-        "@vscode/vsce": "3.1.0",
         "esbuild": "^0.23.1",
         "prettier": "^3.4.2"
     },
@@ -81,13 +80,13 @@
     "licenses": [
         {
             "type": "MIT",
-            "url": "http://"
+            "url": "https://github.com/guobin211/rsx-vscode/blob/main/LICENSE"
         }
     ],
     "main": "./dist/client.js",
     "name": "rsx-vscode",
     "publisher": "rsx-analyzer",
-    "repository": "http://",
+    "repository": "https://github.com/guobin211/rsx-vscode",
     "scripts": {
         "build": "node build.mjs",
         "lint": "tsc -p tsconfig.json --noEmit",
@@ -95,7 +94,7 @@
         "fmt": "prettier --log-level warn --write '**/*.{md,css,scss,ts,tsx,jsx,mjs,json}'"
     },
     "type": "commonjs",
-    "version": "0.2.6",
+    "version": "0.2.7",
     "vsce": {
         "baseImagesUrl": "https://",
         "dependencies": true,
