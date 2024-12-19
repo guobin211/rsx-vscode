@@ -27,14 +27,14 @@ async fn get_server_props(request: Request) -> Response {
 
 <template>
     <div>
-        <h1 class="title">welcome to {{pageName}}</h1>
-        <Content title={{title}}></Content>
+        <h1 class="title">welcome to {pageName}</h1>
+        <Content title={title}></Content>
     </div>
 </template>
 
 <style>
 .title {
-    font-size: 1.5em;
+    font-size: 16px;
     text-align: center;
 }
 </style>
