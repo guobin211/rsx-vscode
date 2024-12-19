@@ -1,0 +1,16 @@
+node_modules
+dist
+lib
+esm
+cjs
+target
+output
+pkg
+coverage
+
+.cargo
+.next
+.cache
+.idea
+.turbo
+pnpm-lock.yaml

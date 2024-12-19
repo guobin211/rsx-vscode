@@ -1,0 +1,104 @@
+{
+    "author": "rsx-analyzer",
+    "categories": [
+        "Programming Languages",
+        "Formatters",
+        "Linters"
+    ],
+    "contributes": {
+        "grammars": [
+            {
+                "embeddedLanguages": {
+                    "source.css": "css",
+                    "source.css.less": "less",
+                    "source.css.scss": "scss",
+                    "source.js": "javascript",
+                    "source.json": "json",
+                    "source.rs": "rust",
+                    "source.sass": "sass",
+                    "source.stylus": "stylus",
+                    "source.ts": "typescript",
+                    "source.tsx": "typescriptreact",
+                    "text.html": "html"
+                },
+                "language": "rsx",
+                "path": "assets/syntaxes/rsx.tmLanguage.json",
+                "scopeName": "source.rsx",
+                "unbalancedBracketScopes": [
+                    "keyword.operator.relational",
+                    "storage.type.function.arrow",
+                    "keyword.operator.bitwise.shift",
+                    "meta.brace.angle",
+                    "punctuation.definition.tag"
+                ]
+            }
+        ],
+        "languages": [
+            {
+                "aliases": [
+                    "rsx",
+                    "rsx"
+                ],
+                "configuration": "assets/languages/rsx-language-configuration.json",
+                "extensions": [
+                    ".rsx"
+                ],
+                "icon": {
+                    "dark": "assets/images/light.svg",
+                    "light": "assets/images/dark.svg"
+                },
+                "id": "rsx"
+            }
+        ]
+    },
+    "dependencies": {
+        "glob": "^11.0.0",
+        "typescript": "5.4.2",
+        "vscode-languageclient": "^9.0.1"
+    },
+    "description": "language support for rsx",
+    "devDependencies": {
+        "@types/node": "^22.10.2",
+        "tsx": "^4.19.2",
+        "@types/vscode": "1.88.0",
+        "@vscode/vsce": "3.1.0",
+        "esbuild": "^0.23.1",
+        "prettier": "^3.4.2"
+    },
+    "displayName": "rsx-analyzer",
+    "engines": {
+        "vscode": "^1.88.0"
+    },
+    "icon": "assets/images/logo.png",
+    "keywords": [
+        "rsx",
+        "rust",
+        "react",
+        "typescript",
+        "javascript"
+    ],
+    "license": "MIT",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://"
+        }
+    ],
+    "main": "./dist/client.js",
+    "name": "rsx-vscode",
+    "publisher": "rsx-analyzer",
+    "repository": "http://",
+    "scripts": {
+        "build": "node build.mjs",
+        "lint": "tsc -p tsconfig.json --noEmit",
+        "pack": "vsce package",
+        "fmt": "prettier --log-level warn --write '**/*.{md,css,scss,ts,tsx,jsx,mjs,json}'"
+    },
+    "type": "commonjs",
+    "version": "0.2.6",
+    "vsce": {
+        "baseImagesUrl": "https://",
+        "dependencies": true,
+        "useYarn": false
+    }
+}
