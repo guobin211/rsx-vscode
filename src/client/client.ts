@@ -1,4 +1,4 @@
-import * as path from 'node:path'
+import * as path from 'path'
 import { workspace, ExtensionContext } from 'vscode'
 
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node'
@@ -9,10 +9,10 @@ export function activate(context: ExtensionContext) {
     const serverModule = context.asAbsolutePath(path.join('dist', 'server.js'))
 
     const serverOptions: ServerOptions = {
-        run: { module: serverModule, transport: TransportKind.stdio },
+        run: { module: serverModule, transport: TransportKind.ipc },
         debug: {
             module: serverModule,
-            transport: TransportKind.stdio
+            transport: TransportKind.ipc
         }
     }
 
@@ -23,7 +23,7 @@ export function activate(context: ExtensionContext) {
         }
     }
 
-    client = new LanguageClient('rsx-vscode', 'rsx-vscode', serverOptions, clientOptions)
+    client = new LanguageClient('RsxLanguageServer', 'Rsx Language Server', serverOptions, clientOptions)
 
     client.start()
 }

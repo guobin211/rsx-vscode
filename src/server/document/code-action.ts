@@ -1,7 +1,7 @@
-import { DocumentUri, TextDocumentIdentifier } from '../../documents'
-import { RequestMessage } from '../../server'
-import { Range } from '../../types'
+import { DocumentUri, TextDocumentIdentifier } from '../workspace/documents'
+import { Range } from '../types'
 import { Diagnostic } from './diagnostic'
+import { RequestMessage } from 'vscode-languageserver/node'
 
 interface CodeActionContext {
     diagnostics: Diagnostic[]

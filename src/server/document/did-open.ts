@@ -1,5 +1,5 @@
-import { DocumentUri, documents } from '../../documents'
-import { NotificationMessage } from '../../server'
+import { NotificationMessage } from 'vscode-languageserver'
+import { DocumentUri, updateDocuments } from '../workspace/documents'
 
 type TextDocumentItem = {
     uri: DocumentUri
@@ -12,6 +12,8 @@ interface DidOpenTextDocumentParams {
     textDocument: TextDocumentItem
 }
 
-export const didOpen = (message: NotificationMessage) => {
+export const didOpen = async (message: NotificationMessage) => {
     const params = message.params as DidOpenTextDocumentParams
+    if (params.textDocument.uri) {
+    }
 }

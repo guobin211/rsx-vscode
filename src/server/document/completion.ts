@@ -1,6 +1,6 @@
-import { RequestMessage } from '../../server'
-import { documents, TextDocumentIdentifier } from '../../documents'
-import { Position } from '../../types'
+import { TextDocumentIdentifier, getDocument } from '../workspace/documents'
+import { Position } from '../types'
+import { RequestMessage } from 'vscode-languageserver'
 
 const MAX_LENGTH = 1000
 
@@ -27,7 +27,7 @@ export interface CompletionParams extends TextDocumentPositionParams {}
  */
 export const completion = (message: RequestMessage): CompletionList | null => {
     const params = message.params as CompletionParams
-    const content = documents.get(params.textDocument.uri)
+    const content = getDocument(params.textDocument.uri)
 
     if (!content) {
         return null

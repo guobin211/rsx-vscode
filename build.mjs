@@ -12,7 +12,7 @@ async function build() {
         outdir: '.',
         bundle: true,
         sourcemap: true,
-        external: ['typescript', 'vscode', 'vscode-languageserver', 'vscode-languageclient'],
+        external: ['typescript', 'vscode', 'vscode-test', 'vscode-languageserver', 'vscode-languageclient'],
         format: 'cjs',
         platform: 'node',
         tsconfig: './tsconfig.json',
@@ -20,8 +20,14 @@ async function build() {
         minify: process.argv.includes('--minify'),
         legalComments: 'none'
     }
-    await esbuild.build(config)
-    console.log('build rsx-vscode success')
+    if (process.argv.includes('--watch')) {
+        const ctx = await esbuild.context(config)
+        console.log('watch rsx-vscode success')
+        await ctx.watch()
+    } else {
+        await esbuild.build(config)
+        console.log('build rsx-vscode success')
+    }
 }
 
 await build()
