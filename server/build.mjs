@@ -6,8 +6,7 @@ async function build() {
      */
     const config = {
         entryPoints: {
-            'dist/client': './src/client.ts',
-            'dist/server': './server/src/server.ts'
+            'dist/server': './src/server.ts'
         },
         outdir: '.',
         bundle: true,

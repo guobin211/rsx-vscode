@@ -5,6 +5,8 @@
 node_modules
 src
 examples
+server
+tests
 
 build.mjs
 tsconfig.json

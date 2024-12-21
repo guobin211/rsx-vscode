@@ -52,23 +52,20 @@
         ]
     },
     "dependencies": {
-        "vscode-languageclient": "^9.0.1",
-        "vscode-languageserver": "^9.0.1",
-        "vscode-languageserver-textdocument": "^1.0.12"
+        "vscode-languageclient": "^9.0.1"
     },
     "description": "language support for rsx",
     "devDependencies": {
         "@types/node": "^22.10.2",
-        "@types/vscode": "^1.96.0",
+        "@types/vscode": "^1.90.0",
         "esbuild": "^0.23.1",
         "prettier": "^3.4.2",
         "tsx": "^4.19.2",
-        "typescript": "5.4.2",
-        "vscode-test": "^1.6.1"
+        "typescript": "5.4.2"
     },
     "displayName": "rsx-analyzer",
     "engines": {
-        "vscode": "^1.88.0"
+        "vscode": "^1.90.0"
     },
     "icon": "assets/images/logo.png",
     "keywords": [
@@ -94,7 +91,8 @@
         "build": "node build.mjs",
         "lint": "tsc -p tsconfig.json --noEmit",
         "release": "vsce package",
-        "fmt": "prettier --log-level warn --write '**/*.{md,css,scss,ts,tsx,jsx,mjs,json}'"
+        "fmt": "prettier --log-level warn --write '**/*.{md,css,scss,ts,tsx,jsx,mjs,json}'",
+        "postinstall": "cd server && yarn install && cd .."
     },
     "type": "commonjs",
     "version": "0.2.7",

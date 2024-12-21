@@ -15,7 +15,6 @@
         "target": "ESNext",
         "module": "ESNext",
         "resolveJsonModule": true,
-        "jsx": "preserve",
         "noEmit": true,
         "forceConsistentCasingInFileNames": true,
         "allowSyntheticDefaultImports": true,

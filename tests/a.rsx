@@ -10,20 +10,22 @@ async fn get_server_props(request: Request) -> Response {
 ---
 
 <script>
-    import Content from './components/Content.tsx';
+    import ServerComponent from './b.rsx';
+    import ClientComponent from './c.tsx';
     const { pageName, title } = $props;
 </script>
 
 <template>
     <div>
         <h1 class="title">welcome to {pageName}</h1>
-        <Content title={title}></Content>
+        <ServerComponent title={title}></ServerComponent>
+        <ClientComponent title={title}></ClientComponent>
     </div>
 </template>
 
 <style>
-.title {
-    font-size: 16px;
-    text-align: center;
-}
+    .title {
+        font-size: 16px;
+        text-align: center;
+    }
 </style>

@@ -15,6 +15,10 @@ export interface TextDocumentContentChangeEvent {
 
 const documents = new Map<DocumentUri, DocumentBody>()
 
+export function clearDocuments() {
+    documents.clear()
+}
+
 export function updateDocuments(uri: DocumentUri, body: string) {
     documents.set(uri, body)
 }
