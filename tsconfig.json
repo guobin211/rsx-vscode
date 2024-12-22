@@ -15,7 +15,7 @@
         "target": "ESNext",
         "module": "ESNext",
         "resolveJsonModule": true,
-        "jsx": "preserve",
+        "jsx": "react-jsx",
         "noEmit": true,
         "forceConsistentCasingInFileNames": true,
         "allowSyntheticDefaultImports": true,
@@ -25,6 +25,5 @@
         "esModuleInterop": false,
         "outDir": "dist",
         "noUnusedLocals": false
-    },
-    "include": ["src"]
+    }
 }

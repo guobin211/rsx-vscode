@@ -129,6 +129,13 @@
   dependencies:
     undici-types "~6.20.0"
 
+"@types/react@^19.0.2":
+  version "19.0.2"
+  resolved "https://mirrors.tencent.com/npm/@types/react/-/react-19.0.2.tgz#9363e6b3ef898c471cb182dd269decc4afc1b4f6"
+  integrity sha512-USU8ZI/xyKJwFTpjSVIrSeHBVAGagkHQKPNbxeWwql/vDmnTIBgx+TJnhFnj1NXgz8XfprU0egV2dROLGpsBEg==
+  dependencies:
+    csstype "^3.0.2"
+
 "@types/vscode@^1.90.0":
   version "1.96.0"
   resolved "https://mirrors.tencent.com/npm/@types/vscode/-/vscode-1.96.0.tgz#3181004bf25d71677ae4aacdd7605a3fd7edf08e"
@@ -145,6 +152,11 @@ brace-expansion@^2.0.1:
   integrity sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==
   dependencies:
     balanced-match "^1.0.0"
+
+csstype@^3.0.2:
+  version "3.1.3"
+  resolved "https://mirrors.tencent.com/npm/csstype/-/csstype-3.1.3.tgz#d80ff294d114fb0e6ac500fbf85b60137d7eff81"
+  integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==
 
 esbuild@^0.23.1, esbuild@~0.23.0:
   version "0.23.1"
