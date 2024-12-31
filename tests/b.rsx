@@ -1,6 +1,8 @@
+---
+---
 <script>
-const { title } = defineProps();
-<script>
+    const { title } = defineProps();
+</script>
 
 <template>
     <div>

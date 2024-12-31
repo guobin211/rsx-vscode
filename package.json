@@ -16,9 +16,9 @@
                     "source.json": "json",
                     "source.rs": "rust",
                     "source.sass": "sass",
-                    "source.stylus": "stylus",
                     "source.ts": "typescript",
                     "source.tsx": "typescriptreact",
+                    "source.jsx": "javascriptreact",
                     "text.html": "html"
                 },
                 "language": "rsx",

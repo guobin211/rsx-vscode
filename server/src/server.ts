@@ -203,6 +203,7 @@ connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
 })
 
 connection.onHover((params) => {
+    console.log(`hover ${params.textDocument.uri} ${params.position}`);
     return null
 })
 documents.listen(connection)

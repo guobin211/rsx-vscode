@@ -23,7 +23,7 @@ export function activate(context: ExtensionContext) {
         }
     }
 
-    client = new LanguageClient('RsxLanguageServer', 'Rsx Language Server', serverOptions, clientOptions)
+    client = new LanguageClient('RsxLanguageServer', 'RsxLanguageServer', serverOptions, clientOptions)
 
     client.start()
 }
