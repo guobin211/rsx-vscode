@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-    "name": "rsx",
-    "scopeName": "source.rsx",
+    "fileTypes": ["rsx"],
+    "name": "RSX",
     "patterns": [
         {
             "include": "#rust-section"
@@ -14,306 +14,75 @@
         },
         {
             "include": "#style-section"
+        },
+        {
+            "include": "#comments"
         }
     ],
     "repository": {
-        "rust-section": {
-            "begin": "^---\\s*$",
-            "end": "^---\\s*$",
-            "name": "meta.embedded.block.rust",
-            "contentName": "source.rust.embedded.rsx",
+        "attribute-values": {
             "patterns": [
                 {
-                    "include": "source.rust"
-                }
-            ]
-        },
-        "script-section": {
-            "begin": "<script(?:\\s[^>]*)?>",
-            "end": "</script>",
-            "name": "meta.embedded.block.typescript",
-            "contentName": "source.ts.embedded.rsx",
-            "patterns": [
-                {
-                    "include": "source.ts"
-                }
-            ]
-        },
-        "template-section": {
-            "begin": "<template(?:\\s[^>]*)?>",
-            "end": "</template>",
-            "name": "meta.embedded.block.handlebars",
-            "contentName": "text.html.handlebars.embedded.rsx",
-            "patterns": [
-                {
-                    "include": "#handlebars-template"
-                }
-            ]
-        },
-        "style-section": {
-            "begin": "<style(?:\\s+lang=[\"']scss[\"']|\\s[^>]*)?>",
-            "end": "</style>",
-            "name": "meta.embedded.block.scss",
-            "contentName": "source.scss.embedded.rsx",
-            "patterns": [
-                {
-                    "include": "source.scss"
-                }
-            ]
-        },
-        "handlebars-template": {
-            "patterns": [
-                {
-                    "include": "#handlebars-block"
-                },
-                {
-                    "include": "#handlebars-expression"
-                },
-                {
-                    "include": "#html-tag-restricted"
-                },
-                {
-                    "include": "text.html.basic"
-                }
-            ]
-        },
-        "handlebars-block": {
-            "patterns": [
-                {
-                    "begin": "\\{#(if|each|unless|with)\\b",
-                    "end": "\\{/(if|each|unless|with)\\}",
-                    "name": "meta.block.handlebars",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "keyword.control.handlebars"
-                        }
-                    },
-                    "endCaptures": {
-                        "0": {
-                            "name": "keyword.control.handlebars"
-                        }
-                    },
+                    "begin": "\"",
+                    "end": "\"",
+                    "name": "string.quoted.double.html",
                     "patterns": [
                         {
-                            "include": "#handlebars-template"
+                            "include": "#handlebars-variables"
                         }
                     ]
                 },
                 {
-                    "match": "\\{:(else|else if)\\}",
-                    "name": "keyword.control.handlebars"
-                }
-            ]
-        },
-        "handlebars-expression": {
-            "patterns": [
-                {
-                    "begin": "\\{\\{",
-                    "end": "\\}\\}",
-                    "name": "meta.expression.handlebars",
+                    "begin": "'",
+                    "end": "'",
+                    "name": "string.quoted.single.html",
                     "patterns": [
                         {
-                            "match": "@html\\b",
-                            "name": "keyword.other.handlebars"
-                        },
-                        {
-                            "match": "\\b\\w+\\b",
-                            "name": "variable.other.handlebars"
+                            "include": "#handlebars-variables"
                         }
                     ]
+                },
+                {
+                    "match": "[^\\s/>]+",
+                    "name": "string.unquoted.html"
                 }
             ]
         },
-        "html-tag-restricted": {
+        "client-attribute": {
             "patterns": [
                 {
-                    "begin": "<(script|style|template)\\b",
-                    "end": ">",
-                    "name": "invalid.illegal.tag.template.rsx",
                     "captures": {
                         "1": {
-                            "name": "invalid.illegal.tag-name.template.rsx"
-                        }
-                    }
-                },
-                {
-                    "begin": "<([a-zA-Z][a-zA-Z0-9-]*)\\b",
-                    "end": "/?>",
-                    "name": "meta.tag.html",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "entity.name.tag.html"
-                        }
-                    },
-                    "patterns": [
-                        {
-                            "match": "\\b(on[a-zA-Z]+)\\s*=",
-                            "captures": {
-                                "1": {
-                                    "name": "invalid.illegal.attribute.event.template.rsx"
-                                }
-                            }
-                        },
-                        {
-                            "match": "\\b([a-zA-Z-]+)\\s*=\\s*([\"'][^\"']*[\"'])",
-                            "captures": {
-                                "1": {
-                                    "name": "entity.other.attribute-name.html"
-                                },
-                                "2": {
-                                    "name": "string.quoted.html"
-                                }
-                            }
-                        },
-                        {
-                            "match": "\\b[a-zA-Z-]+\\b",
                             "name": "entity.other.attribute-name.html"
-                        }
-                    ]
-                }
-            ]
-        }
-    }
-}
-            ]
-        },
-        {
-            "comment": "Template标签 - Handlebars模板",
-            "begin": "(<)(template)(?![^/>]*/>\\s*$)",
-            "beginCaptures": {
-                "1": {
-                    "name": "punctuation.definition.tag.begin.html"
-                },
-                "2": {
-                    "name": "entity.name.tag.template.html"
-                }
-            },
-            "end": "(</)(template)(>)",
-            "endCaptures": {
-                "1": {
-                    "name": "punctuation.definition.tag.begin.html"
-                },
-                "2": {
-                    "name": "entity.name.tag.template.html"
-                },
-                "3": {
-                    "name": "punctuation.definition.tag.end.html"
-                }
-            },
-            "patterns": [
-                {
-                    "begin": "(>)",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.tag.end.html"
+                        },
+                        "2": {
+                            "name": "punctuation.separator.key-value.html"
+                        },
+                        "4": {
+                            "name": "string.quoted.html support.constant.client-type.rsx"
                         }
                     },
-                    "end": "(?=</template>)",
-                    "contentName": "text.html.handlebars.embedded.rsx",
-                    "patterns": [
-                        {
-                            "include": "#handlebars-template"
-                        }
-                    ]
+                    "match": "\\b(client)\\s*(=)\\s*([\"'])(react|vue|svelte)\\3",
+                    "name": "meta.attribute.client.html.rsx"
                 }
             ]
         },
-        {
-            "comment": "Style标签 - SCSS样式",
-            "begin": "(<)(style)(?![^/>]*/>\\s*$)",
-            "beginCaptures": {
-                "1": {
-                    "name": "punctuation.definition.tag.begin.html"
-                },
-                "2": {
-                    "name": "entity.name.tag.style.html"
-                }
-            },
-            "end": "(</)(style)(>)",
-            "endCaptures": {
-                "1": {
-                    "name": "punctuation.definition.tag.begin.html"
-                },
-                "2": {
-                    "name": "entity.name.tag.style.html"
-                },
-                "3": {
-                    "name": "punctuation.definition.tag.end.html"
-                }
-            },
+        "comments": {
             "patterns": [
                 {
-                    "begin": "(>)",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.tag.end.html"
-                        }
-                    },
-                    "end": "(?=</style>)",
-                    "contentName": "source.scss.embedded.rsx",
-                    "patterns": [
-                        {
-                            "include": "source.scss"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "repository": {
-        "handlebars-template": {
-            "patterns": [
-                {
-                    "include": "#handlebars-comments"
+                    "match": "//.*$",
+                    "name": "comment.line.double-slash.rsx"
                 },
                 {
-                    "include": "#handlebars-block-helpers"
-                },
-                {
-                    "include": "#handlebars-variables"
-                },
-                {
-                    "include": "#handlebars-raw-html"
-                },
-                {
-                    "include": "#html-tags"
-                },
-                {
-                    "include": "text.html.basic"
-                }
-            ]
-        },
-        "handlebars-comments": {
-            "patterns": [
-                {
-                    "name": "comment.block.handlebars.rsx",
-                    "begin": "\\{\\{!--",
-                    "end": "--\\}\\}",
-                    "patterns": [
-                        {
-                            "name": "keyword.annotation.handlebars",
-                            "match": "@\\w*"
-                        }
-                    ]
-                },
-                {
-                    "name": "comment.block.handlebars.rsx",
-                    "begin": "\\{\\{!",
-                    "end": "\\}\\}",
-                    "patterns": [
-                        {
-                            "name": "keyword.annotation.handlebars",
-                            "match": "@\\w*"
-                        }
-                    ]
+                    "begin": "/\\*",
+                    "end": "\\*/",
+                    "name": "comment.block.rsx"
                 }
             ]
         },
         "handlebars-block-helpers": {
             "patterns": [
                 {
-                    "comment": "条件渲染 - if/else",
-                    "name": "meta.block.if.handlebars.rsx",
                     "begin": "(\\{\\{)(#if)\\s+([^}]+)(\\}\\})",
                     "beginCaptures": {
                         "1": {
@@ -323,7 +92,11 @@
                             "name": "keyword.control.conditional.handlebars"
                         },
                         "3": {
-                            "name": "variable.other.handlebars"
+                            "patterns": [
+                                {
+                                    "include": "#handlebars-expression-content"
+                                }
+                            ]
                         },
                         "4": {
                             "name": "punctuation.definition.block.begin.handlebars"
@@ -341,6 +114,7 @@
                             "name": "punctuation.definition.block.end.handlebars"
                         }
                     },
+                    "name": "meta.block.if.handlebars.rsx",
                     "patterns": [
                         {
                             "include": "#handlebars-else"
@@ -351,9 +125,7 @@
                     ]
                 },
                 {
-                    "comment": "循环渲染 - each",
-                    "name": "meta.block.each.handlebars.rsx",
-                    "begin": "(\\{\\{)(#each)\\s+([^}]+)(\\}\\})",
+                    "begin": "(\\{\\{)(#each)\\s+([^}]+?)(\\s+as\\s+([^,}]+)(?:,\\s*([^}]+))?)?(\\}\\})",
                     "beginCaptures": {
                         "1": {
                             "name": "punctuation.definition.block.begin.handlebars"
@@ -365,6 +137,15 @@
                             "name": "variable.other.handlebars"
                         },
                         "4": {
+                            "name": "keyword.operator.as.handlebars"
+                        },
+                        "5": {
+                            "name": "variable.parameter.handlebars"
+                        },
+                        "6": {
+                            "name": "variable.parameter.handlebars"
+                        },
+                        "7": {
                             "name": "punctuation.definition.block.begin.handlebars"
                         }
                     },
@@ -380,6 +161,7 @@
                             "name": "punctuation.definition.block.end.handlebars"
                         }
                     },
+                    "name": "meta.block.each.handlebars.rsx",
                     "patterns": [
                         {
                             "include": "#handlebars-template"
@@ -388,11 +170,43 @@
                 }
             ]
         },
+        "handlebars-comments": {
+            "patterns": [
+                {
+                    "begin": "\\{\\{!--",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.begin.handlebars"
+                        }
+                    },
+                    "end": "--\\}\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.end.handlebars"
+                        }
+                    },
+                    "name": "comment.block.handlebars.rsx"
+                },
+                {
+                    "begin": "\\{\\{!",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.begin.handlebars"
+                        }
+                    },
+                    "end": "\\}\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.end.handlebars"
+                        }
+                    },
+                    "name": "comment.block.handlebars.rsx"
+                }
+            ]
+        },
         "handlebars-else": {
             "patterns": [
                 {
-                    "name": "meta.else.handlebars.rsx",
-                    "match": "(\\{\\{)(:else\\s*if)\\s+([^}]+)(\\}\\})",
                     "captures": {
                         "1": {
                             "name": "punctuation.definition.block.handlebars"
@@ -401,16 +215,20 @@
                             "name": "keyword.control.conditional.handlebars"
                         },
                         "3": {
-                            "name": "variable.other.handlebars"
+                            "patterns": [
+                                {
+                                    "include": "#handlebars-expression-content"
+                                }
+                            ]
                         },
                         "4": {
                             "name": "punctuation.definition.block.handlebars"
                         }
-                    }
+                    },
+                    "match": "(\\{\\{)(:else\\s+if)\\s+([^}]+)(\\}\\})",
+                    "name": "meta.else-if.handlebars.rsx"
                 },
                 {
-                    "name": "meta.else.handlebars.rsx",
-                    "match": "(\\{\\{)(:else)(\\}\\})",
                     "captures": {
                         "1": {
                             "name": "punctuation.definition.block.handlebars"
@@ -421,52 +239,49 @@
                         "3": {
                             "name": "punctuation.definition.block.handlebars"
                         }
-                    }
+                    },
+                    "match": "(\\{\\{)(:else)(\\}\\})",
+                    "name": "meta.else.handlebars.rsx"
                 }
             ]
         },
-        "handlebars-variables": {
+        "handlebars-expression-content": {
             "patterns": [
                 {
-                    "comment": "三重大括号变量 - 原始HTML",
-                    "name": "meta.variable.triple.handlebars.rsx",
-                    "match": "(\\{\\{\\{)([^}]+)(\\}\\}\\})",
-                    "captures": {
-                        "1": {
-                            "name": "punctuation.definition.variable.begin.handlebars"
-                        },
-                        "2": {
-                            "name": "variable.other.handlebars"
-                        },
-                        "3": {
-                            "name": "punctuation.definition.variable.end.handlebars"
-                        }
-                    }
+                    "match": "@html\\b",
+                    "name": "keyword.other.handlebars"
                 },
                 {
-                    "comment": "双重大括号变量 - 转义HTML",
-                    "name": "meta.variable.double.handlebars.rsx",
-                    "match": "(\\{\\{)([^}]+)(\\}\\})",
-                    "captures": {
-                        "1": {
-                            "name": "punctuation.definition.variable.begin.handlebars"
-                        },
-                        "2": {
-                            "name": "variable.other.handlebars"
-                        },
-                        "3": {
-                            "name": "punctuation.definition.variable.end.handlebars"
-                        }
-                    }
+                    "match": "(>|<|>=|<=|==|!=)",
+                    "name": "keyword.operator.comparison.handlebars"
+                },
+                {
+                    "match": "(&&|\\|\\|)",
+                    "name": "keyword.operator.logical.handlebars"
+                },
+                {
+                    "match": "\\b\\d+(\\.\\d+)?\\b",
+                    "name": "constant.numeric.handlebars"
+                },
+                {
+                    "begin": "'",
+                    "end": "'",
+                    "name": "string.quoted.single.handlebars"
+                },
+                {
+                    "begin": "\"",
+                    "end": "\"",
+                    "name": "string.quoted.double.handlebars"
+                },
+                {
+                    "match": "\\b[a-zA-Z_][a-zA-Z0-9_.]*\\b",
+                    "name": "variable.other.handlebars"
                 }
             ]
         },
         "handlebars-raw-html": {
             "patterns": [
                 {
-                    "comment": "原始HTML输出",
-                    "name": "meta.raw-html.handlebars.rsx",
-                    "match": "(\\{\\{)(@html)\\s+([^}]+)(\\}\\})",
                     "captures": {
                         "1": {
                             "name": "punctuation.definition.variable.begin.handlebars"
@@ -480,15 +295,103 @@
                         "4": {
                             "name": "punctuation.definition.variable.end.handlebars"
                         }
+                    },
+                    "match": "(\\{\\{)(@html)\\s+([^}]+)(\\}\\})",
+                    "name": "meta.raw-html.handlebars.rsx"
+                }
+            ]
+        },
+        "handlebars-template": {
+            "patterns": [
+                {
+                    "include": "#handlebars-comments"
+                },
+                {
+                    "include": "#handlebars-block-helpers"
+                },
+                {
+                    "include": "#handlebars-variables"
+                },
+                {
+                    "include": "#handlebars-raw-html"
+                },
+                {
+                    "include": "#template-restricted-tags"
+                },
+                {
+                    "include": "#html-tags"
+                },
+                {
+                    "include": "text.html.basic"
+                }
+            ]
+        },
+        "template-restricted-tags": {
+            "patterns": [
+                {
+                    "name": "invalid.illegal.tag.template.rsx",
+                    "match": "</?\\s*(template|script|style)\\b[^>]*>",
+                    "captures": {
+                        "1": {
+                            "name": "invalid.illegal.tag-name.template.rsx"
+                        }
                     }
+                }
+            ]
+        },
+        "handlebars-variables": {
+            "patterns": [
+                {
+                    "begin": "\\{\\{",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.variable.begin.handlebars"
+                        }
+                    },
+                    "end": "\\}\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.variable.end.handlebars"
+                        }
+                    },
+                    "name": "meta.variable.handlebars.rsx",
+                    "patterns": [
+                        {
+                            "include": "#handlebars-expression-content"
+                        }
+                    ]
+                }
+            ]
+        },
+        "html-attributes": {
+            "patterns": [
+                {
+                    "begin": "\\b([a-zA-Z0-9-]+)\\s*(=)\\s*",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "entity.other.attribute-name.html"
+                        },
+                        "2": {
+                            "name": "punctuation.separator.key-value.html"
+                        }
+                    },
+                    "end": "(?=[\\s/>])",
+                    "name": "meta.attribute.html",
+                    "patterns": [
+                        {
+                            "include": "#attribute-values"
+                        }
+                    ]
+                },
+                {
+                    "match": "\\b[a-zA-Z0-9-]+\\b",
+                    "name": "entity.other.attribute-name.html"
                 }
             ]
         },
         "html-tags": {
             "patterns": [
                 {
-                    "comment": "客户端组件标签",
-                    "name": "meta.tag.client-component.html",
                     "begin": "(<)([A-Z][a-zA-Z0-9]*)",
                     "beginCaptures": {
                         "1": {
@@ -498,12 +401,13 @@
                             "name": "entity.name.tag.component.html"
                         }
                     },
-                    "end": "(/>|>)",
+                    "end": "(/?>)",
                     "endCaptures": {
                         "1": {
                             "name": "punctuation.definition.tag.end.html"
                         }
                     },
+                    "name": "meta.tag.client-component.html.rsx",
                     "patterns": [
                         {
                             "include": "#client-attribute"
@@ -514,9 +418,7 @@
                     ]
                 },
                 {
-                    "comment": "普通HTML标签",
-                    "name": "meta.tag.html",
-                    "begin": "(<)([a-z][a-zA-Z0-9]*)",
+                    "begin": "(<)([a-z][a-zA-Z0-9-]*)",
                     "beginCaptures": {
                         "1": {
                             "name": "punctuation.definition.tag.begin.html"
@@ -525,12 +427,13 @@
                             "name": "entity.name.tag.html"
                         }
                     },
-                    "end": "(/>|>)",
+                    "end": "(/?>)",
                     "endCaptures": {
                         "1": {
                             "name": "punctuation.definition.tag.end.html"
                         }
                     },
+                    "name": "meta.tag.html",
                     "patterns": [
                         {
                             "include": "#html-attributes"
@@ -538,9 +441,6 @@
                     ]
                 },
                 {
-                    "comment": "HTML结束标签",
-                    "name": "meta.tag.html",
-                    "match": "(</)([a-zA-Z0-9]+)(>)",
                     "captures": {
                         "1": {
                             "name": "punctuation.definition.tag.begin.html"
@@ -551,75 +451,191 @@
                         "3": {
                             "name": "punctuation.definition.tag.end.html"
                         }
-                    }
+                    },
+                    "match": "(</)([a-zA-Z0-9-]+)(>)",
+                    "name": "meta.tag.html"
                 }
             ]
         },
-        "client-attribute": {
+        "rust-section": {
+            "begin": "^---\\s*$",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.rust-section.begin.rsx"
+                }
+            },
+            "contentName": "source.rust.embedded.rsx",
+            "end": "^---\\s*$",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.rust-section.end.rsx"
+                }
+            },
+            "name": "meta.embedded.block.rust.rsx",
             "patterns": [
                 {
-                    "comment": "client属性",
-                    "name": "meta.attribute.client.html",
-                    "match": "\\b(client)\\s*=\\s*([\"'])(react|vue|svelte)\\2",
+                    "include": "#rust-server-functions"
+                },
+                {
+                    "include": "source.rust"
+                }
+            ]
+        },
+        "rust-server-functions": {
+            "patterns": [
+                {
                     "captures": {
                         "1": {
-                            "name": "entity.other.attribute-name.html"
-                        },
-                        "3": {
-                            "name": "string.quoted.html support.constant.client-type.rsx"
-                        }
-                    }
-                }
-            ]
-        },
-        "html-attributes": {
-            "patterns": [
-                {
-                    "comment": "HTML属性",
-                    "name": "meta.attribute.html",
-                    "begin": "\\b([a-zA-Z0-9-]+)\\s*(=)\\s*",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "entity.other.attribute-name.html"
+                            "name": "storage.modifier.async.rust keyword.other.fn.rust"
                         },
                         "2": {
-                            "name": "punctuation.separator.key-value.html"
+                            "name": "entity.name.function.server-side-props.rust.rsx"
                         }
                     },
-                    "end": "(?=[\\s>])",
-                    "patterns": [
-                        {
-                            "include": "#attribute-values"
-                        }
-                    ]
+                    "match": "\\b(async\\s+fn\\s+)(get_server_side_props)\\s*\\(",
+                    "name": "meta.function.server-side-props.rust.rsx"
                 }
             ]
         },
-        "attribute-values": {
-            "patterns": [
-                {
-                    "comment": "带Handlebars变量的属性值",
-                    "name": "string.quoted.double.html",
-                    "begin": "\"",
-                    "end": "\"",
+        "script-section": {
+            "begin": "(<)(script)((?:\\s[^>]*)?)(>)",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.begin.html"
+                },
+                "2": {
+                    "name": "entity.name.tag.script.rsx support.type.builtin.rsx"
+                },
+                "3": {
                     "patterns": [
                         {
-                            "include": "#handlebars-variables"
+                            "include": "text.html.basic#attribute"
                         }
                     ]
                 },
+                "4": {
+                    "name": "punctuation.definition.tag.end.html"
+                }
+            },
+            "contentName": "source.ts.embedded.rsx",
+            "end": "(</)(script)(>)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.begin.html"
+                },
+                "2": {
+                    "name": "entity.name.tag.script.rsx support.type.builtin.rsx"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.end.html"
+                }
+            },
+            "name": "meta.embedded.block.typescript.rsx",
+            "patterns": [
                 {
-                    "comment": "带Handlebars变量的属性值",
-                    "name": "string.quoted.single.html",
-                    "begin": "'",
-                    "end": "'",
+                    "include": "#typescript-define-props"
+                },
+                {
+                    "include": "source.ts"
+                }
+            ]
+        },
+        "style-section": {
+            "begin": "(<)(style)((?:\\s[^>]*)?)(>)",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.begin.html"
+                },
+                "2": {
+                    "name": "entity.name.tag.style.rsx support.type.builtin.rsx"
+                },
+                "3": {
                     "patterns": [
                         {
-                            "include": "#handlebars-variables"
+                            "include": "text.html.basic#attribute"
                         }
                     ]
+                },
+                "4": {
+                    "name": "punctuation.definition.tag.end.html"
+                }
+            },
+            "contentName": "source.scss.embedded.rsx",
+            "end": "(</)(style)(>)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.begin.html"
+                },
+                "2": {
+                    "name": "entity.name.tag.style.rsx support.type.builtin.rsx"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.end.html"
+                }
+            },
+            "name": "meta.embedded.block.scss.rsx",
+            "patterns": [
+                {
+                    "include": "source.scss"
+                }
+            ]
+        },
+        "template-section": {
+            "begin": "(<)(template)((?:\\s[^>]*)?)(>)",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.begin.html"
+                },
+                "2": {
+                    "name": "entity.name.tag.template.rsx support.type.builtin.rsx"
+                },
+                "3": {
+                    "patterns": [
+                        {
+                            "include": "text.html.basic#attribute"
+                        }
+                    ]
+                },
+                "4": {
+                    "name": "punctuation.definition.tag.end.html"
+                }
+            },
+            "contentName": "text.html.handlebars.embedded.rsx",
+            "end": "(</)(template)(>)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.definition.tag.begin.html"
+                },
+                "2": {
+                    "name": "entity.name.tag.template.rsx support.type.builtin.rsx"
+                },
+                "3": {
+                    "name": "punctuation.definition.tag.end.html"
+                }
+            },
+            "name": "meta.embedded.block.handlebars.rsx",
+            "patterns": [
+                {
+                    "include": "#handlebars-template"
+                }
+            ]
+        },
+        "typescript-define-props": {
+            "patterns": [
+                {
+                    "captures": {
+                        "1": {
+                            "name": "entity.name.function.define-props.typescript.rsx"
+                        },
+                        "2": {
+                            "name": "meta.type-parameters.typescript"
+                        }
+                    },
+                    "match": "\\b(defineProps)(<[^>]*>)?\\s*\\(",
+                    "name": "meta.function.define-props.typescript.rsx"
                 }
             ]
         }
-    }
+    },
+    "scopeName": "source.rsx"
 }

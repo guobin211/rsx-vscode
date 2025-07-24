@@ -1,25 +1,88 @@
 {
-    "comments": {
-        "lineComment": "//",
-        "blockComment": ["/*", "*/"]
-    },
-    "brackets": [["{", "}"], ["[", "]"], ["(", ")"], ["<", ">"], ["{{", "}}"], ["{{{", "}}}"]],
     "autoClosingPairs": [
-        { "open": "{", "close": "}" },
-        { "open": "[", "close": "]" },
-        { "open": "(", "close": ")" },
-        { "open": "'", "close": "'", "notIn": ["string", "comment"] },
-        { "open": "\"", "close": "\"", "notIn": ["string"] },
-        { "open": "`", "close": "`", "notIn": ["string", "comment"] },
-        { "open": "/**", "close": " */", "notIn": ["string"] },
-        { "open": "<", "close": ">", "notIn": ["string"] },
-        { "open": "{{", "close": "}}", "notIn": ["string", "comment"] },
-        { "open": "{{{", "close": "}}}", "notIn": ["string", "comment"] },
-        { "open": "---", "close": "---", "notIn": ["string", "comment"] },
-        { "open": "<script>", "close": "</script>", "notIn": ["string", "comment"] },
-        { "open": "<template>", "close": "</template>", "notIn": ["string", "comment"] },
-        { "open": "<style>", "close": "</style>", "notIn": ["string", "comment"] }
+        {
+            "close": "}",
+            "open": "{"
+        },
+        {
+            "close": "]",
+            "open": "["
+        },
+        {
+            "close": ")",
+            "open": "("
+        },
+        {
+            "close": "'",
+            "notIn": ["string", "comment"],
+            "open": "'"
+        },
+        {
+            "close": "\"",
+            "notIn": ["string"],
+            "open": "\""
+        },
+        {
+            "close": "`",
+            "notIn": ["string", "comment"],
+            "open": "`"
+        },
+        {
+            "close": " */",
+            "notIn": ["string"],
+            "open": "/**"
+        },
+        {
+            "close": ">",
+            "notIn": ["string"],
+            "open": "<"
+        },
+        {
+            "close": "}}",
+            "notIn": ["string", "comment"],
+            "open": "{{"
+        },
+        {
+            "close": "}}}",
+            "notIn": ["string", "comment"],
+            "open": "{{{"
+        },
+        {
+            "close": "---",
+            "notIn": ["string", "comment"],
+            "open": "---"
+        },
+        {
+            "close": "</script>",
+            "notIn": ["string", "comment"],
+            "open": "<script>"
+        },
+        {
+            "close": "</template>",
+            "notIn": ["string", "comment"],
+            "open": "<template>"
+        },
+        {
+            "close": "</style>",
+            "notIn": ["string", "comment"],
+            "open": "<style>"
+        }
     ],
+    "brackets": [["{", "}"], ["[", "]"], ["(", ")"], ["<", ">"], ["{{", "}}"], ["{{{", "}}}"]],
+    "comments": {
+        "blockComment": ["/*", "*/"],
+        "lineComment": "//"
+    },
+    "folding": {
+        "markers": {
+            "end": "^\\s*(---|</(script|template|style)>|\\{\\{/|<!--\\s*#?endregion\\b.*-->)",
+            "start": "^\\s*(---|<(script|template|style)>|\\{\\{#|<!--\\s*#?region\\b.*-->)"
+        }
+    },
+    "indentationRules": {
+        "decreaseIndentPattern": "^((?!.*?\\/\\*).*\\*/)?\\s*[\\}\\]].*$|^\\s*</(script|template|style)>\\s*$",
+        "increaseIndentPattern": "^((?!\\/\\/).)*(\\{[^}\"'`]*|\\([^)\"'`]*|\\[[^\\]\"'`]*|<(?!area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\\w[^>]*(?<!/)>)$"
+    },
     "surroundingPairs": [
         ["{", "}"],
         ["[", "]"],
@@ -31,15 +94,5 @@
         ["{{", "}}"],
         ["{{{", "}}}"]
     ],
-    "folding": {
-        "markers": {
-            "start": "^\\s*(---|<(script|template|style)>|\\{\\{#|<!--\\s*#?region\\b.*-->)",
-            "end": "^\\s*(---|</(script|template|style)>|\\{\\{/|<!--\\s*#?endregion\\b.*-->)"
-        }
-    },
-    "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
-    "indentationRules": {
-        "increaseIndentPattern": "^((?!\\/\\/).)*(\\{[^}\"'`]*|\\([^)\"'`]*|\\[[^\\]\"'`]*|<(?!area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\\w[^>]*(?<!/)>)$",
-        "decreaseIndentPattern": "^((?!.*?\\/\\*).*\\*/)?\\s*[\\}\\]].*$|^\\s*</(script|template|style)>\\s*$"
-    }
+    "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)"
 }

@@ -59,17 +59,19 @@ async fn get_server_side_props(req: Request) -> Response {
         <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     </head>
     <body>
-    <div id="app">
-        <Header userInfo="{{userInfo}}"></Header>
-        <div class="flex">
-            <App client="react"></App>
+        <div id="app">
+            <Header userInfo="{{userInfo}}"></Header>
+            <div class="flex">
+                <App client="react"></App>
+            </div>
+            {#if version}
+                <Footer version="{{version}}"></Footer>
+            {/if}
         </div>
-        <Footer version="{{version}}"></Footer>
-    </div>
     </body>
 </template>
 
-<style>
+<style lang="scss">
     #app {
         display: flex;
         flex-direction: column;
@@ -78,5 +80,21 @@ async fn get_server_side_props(req: Request) -> Response {
     }
     .flex {
         flex: 1;
+    }
+    .header {
+        background-color: #f8f9fa;
+        padding: 20px;
+        text-align: center;
+        font-size: 24px;
+        color: #333;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #007bff;
+            margin-top: 10px;
+        }
     }
 </style>

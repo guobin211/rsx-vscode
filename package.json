@@ -8,7 +8,7 @@
         "build:server": "pnpm --filter rsx-language-server build",
         "build:client": "pnpm --filter rsx-vscode build",
         "build": "pnpm build:server && pnpm build:client",
-        "pack": "cd rsx-vscode && vsce package"
+        "pack": "cd ./rsx-vscode && npx vsce package"
     },
     "keywords": [
         "rsx",

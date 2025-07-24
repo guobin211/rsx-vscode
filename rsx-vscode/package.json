@@ -13,10 +13,10 @@
                     "source.ts.embedded.rsx": "typescript",
                     "text.html.handlebars.embedded.rsx": "html",
                     "source.scss.embedded.rsx": "scss",
-                    "source.css": "css",
-                    "source.js": "javascript",
-                    "source.ts": "typescript",
-                    "text.html": "html"
+                    "meta.embedded.block.rust.rsx": "rust",
+                    "meta.embedded.block.typescript.rsx": "typescript",
+                    "meta.embedded.block.handlebars.rsx": "html",
+                    "meta.embedded.block.scss.rsx": "scss"
                 },
                 "language": "rsx",
                 "path": "assets/rsx-syntaxes.json",
@@ -26,14 +26,18 @@
                     "storage.type.function.arrow",
                     "keyword.operator.bitwise.shift",
                     "meta.brace.angle",
-                    "punctuation.definition.tag"
+                    "punctuation.definition.tag",
+                    "punctuation.definition.variable.begin.handlebars",
+                    "punctuation.definition.variable.end.handlebars",
+                    "punctuation.definition.block.begin.handlebars",
+                    "punctuation.definition.block.end.handlebars"
                 ]
             }
         ],
         "languages": [
             {
                 "aliases": [
-                    "rsx",
+                    "RSX",
                     "rsx"
                 ],
                 "configuration": "assets/rsx-configuration.json",
@@ -44,7 +48,10 @@
                     "dark": "assets/images/light.svg",
                     "light": "assets/images/dark.svg"
                 },
-                "id": "rsx"
+                "id": "rsx",
+                "mimetypes": [
+                    "text/x-rsx"
+                ]
             }
         ]
     },
@@ -53,14 +60,14 @@
         "@volar/vscode": "^2.4.20",
         "vscode-languageclient": "^9.0.1"
     },
-    "description": "language support for rsx",
+    "description": "RSX language support with syntax highlighting for Rust, TypeScript, Handlebars templates, and SCSS styles in a single file",
     "devDependencies": {
         "@types/node": "22.16.3",
         "@types/vscode": "1.88.0",
         "esbuild": "^0.25.8",
         "typescript": "^5.8.3"
     },
-    "displayName": "rsx-analyzer",
+    "displayName": "RSX Language Support",
     "engines": {
         "vscode": "^1.88.0"
     },
@@ -68,9 +75,14 @@
     "keywords": [
         "rsx",
         "rust",
-        "react",
         "typescript",
-        "javascript"
+        "handlebars",
+        "scss",
+        "full-stack",
+        "web-framework",
+        "ssr",
+        "syntax-highlighting",
+        "templates"
     ],
     "license": "MIT",
     "licenses": [
