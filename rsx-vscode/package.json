@@ -9,14 +9,13 @@
         "grammars": [
             {
                 "embeddedLanguages": {
+                    "source.rust.embedded.rsx": "rust",
+                    "source.ts.embedded.rsx": "typescript",
+                    "text.html.handlebars.embedded.rsx": "html",
+                    "source.scss.embedded.rsx": "scss",
                     "source.css": "css",
-                    "source.css.scss": "scss",
                     "source.js": "javascript",
-                    "source.json": "json",
-                    "source.jsx": "javascriptreact",
-                    "source.rs": "rust",
                     "source.ts": "typescript",
-                    "source.tsx": "typescriptreact",
                     "text.html": "html"
                 },
                 "language": "rsx",
@@ -80,7 +79,7 @@
             "url": "https://github.com/guobin211/rsx-vscode/blob/main/LICENSE"
         }
     ],
-    "main": "./dist/client.js",
+    "main": "./dist/extension.js",
     "name": "rsx-vscode",
     "publisher": "rsx-analyzer",
     "repository": "https://github.com/guobin211/rsx",

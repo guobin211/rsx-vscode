@@ -1,3 +1,7 @@
+# rsx
+
+```html
+
 ---
 use rsx::{Request, Response, Promise};
 use api::user::{UserInfo};
@@ -80,3 +84,4 @@ async fn get_server_side_props(req: Request) -> Response {
         flex: 1;
     }
 </style>
+```

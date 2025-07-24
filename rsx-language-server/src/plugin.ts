@@ -17,7 +17,9 @@ export const rsxLanguage = {
         return undefined
     },
     updateVirtualCode(uri, languageCode, snapshot) {
-        console.log(`Updating virtual code for ${uri} with language ID ${languageCode.languageId} snapshot ${snapshot}`)
+        console.log(
+            `Updating virtual code for ${uri} with language ID ${languageCode.languageId} snapshot ${snapshot}`
+        )
         return languageCode
     }
 } satisfies LanguagePlugin<URI>

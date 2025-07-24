@@ -1,40 +1,56 @@
-import * as serverProtocol from '@volar/language-server/protocol'
-import { activateAutoInsertion, createLabsInfo } from '@volar/vscode'
 import * as vscode from 'vscode'
-import * as lsp from 'vscode-languageclient/node'
+import {
+    LanguageClient,
+    type LanguageClientOptions,
+    type ServerOptions,
+    TransportKind
+} from 'vscode-languageclient/node'
 
-let client: lsp.BaseLanguageClient
+let client: LanguageClient
 
-export async function activate(context: vscode.ExtensionContext) {
-    const serverModule = vscode.Uri.joinPath(context.extensionUri, 'dist', 'server.js')
-    const serverOptions: lsp.ServerOptions = {
-        run: {
-            module: serverModule.fsPath,
-            transport: lsp.TransportKind.ipc,
-            options: { execArgv: <string[]>[] }
-        },
+export function activate(context: vscode.ExtensionContext) {
+    // 语言服务器配置
+    const serverModule = context.asAbsolutePath('dist/server.js')
+    const debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] }
+
+    const serverOptions: ServerOptions = {
+        run: { module: serverModule, transport: TransportKind.ipc },
         debug: {
-            module: serverModule.fsPath,
-            transport: lsp.TransportKind.ipc,
-            options: { execArgv: ['--nolazy', `--inspect=${6009}`] }
+            module: serverModule,
+            transport: TransportKind.ipc,
+            options: debugOptions
         }
     }
 
-    const clientOptions: lsp.LanguageClientOptions = {
-        documentSelector: [{ language: 'rsx' }],
-        initializationOptions: {}
+    const clientOptions: LanguageClientOptions = {
+        documentSelector: [{ scheme: 'file', language: 'rsx' }],
+        synchronize: {
+            fileEvents: vscode.workspace.createFileSystemWatcher('**/.clientrc')
+        }
     }
 
-    client = new lsp.LanguageClient('rsx-language-server', 'RSX Language Server', serverOptions, clientOptions)
-    await client.start()
+    // 创建语言客户端
+    client = new LanguageClient(
+        'rsxLanguageServer',
+        'RSX Language Server',
+        serverOptions,
+        clientOptions
+    )
 
-    activateAutoInsertion('rsx', client)
+    // 启动客户端，这也会启动服务器
+    client.start()
 
-    const labsInfo = createLabsInfo(serverProtocol)
-    labsInfo.addLanguageClient(client)
-    return labsInfo.extensionExports
+    // 注册命令
+    const disposable = vscode.commands.registerCommand('rsx.helloWorld', () => {
+        vscode.window.showInformationMessage('Hello World from RSX!')
+    })
+
+    context.subscriptions.push(disposable)
 }
 
-export function deactivate(): Thenable<any> | undefined {
-    return client?.stop()
+export function deactivate(): Thenable<void> | undefined {
+    if (!client) {
+        return undefined
+    }
+    return client.stop()
 }

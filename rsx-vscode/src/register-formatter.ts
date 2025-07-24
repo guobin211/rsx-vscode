@@ -4,7 +4,9 @@ import { RSXFormatter } from './formatter'
 export function registerFormatter(context: vscode.ExtensionContext) {
     // 注册格式化提供者
     const formatter = new RSXFormatter()
-    context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider('rsx', formatter))
+    context.subscriptions.push(
+        vscode.languages.registerDocumentFormattingEditProvider('rsx', formatter)
+    )
 
     // 添加格式化命令
     context.subscriptions.push(

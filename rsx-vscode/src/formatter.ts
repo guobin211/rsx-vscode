@@ -16,7 +16,9 @@ export class RSXFormatter implements vscode.DocumentFormattingEditProvider {
     // 动态注册格式化功能
     static register(context: vscode.ExtensionContext) {
         const formatter = new RSXFormatter()
-        context.subscriptions.push(vscode.languages.registerDocumentFormattingEditProvider('rsx', formatter))
+        context.subscriptions.push(
+            vscode.languages.registerDocumentFormattingEditProvider('rsx', formatter)
+        )
 
         context.subscriptions.push(
             vscode.commands.registerCommand('rsx.format', () => {

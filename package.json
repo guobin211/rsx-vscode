@@ -4,10 +4,11 @@
     "description": "",
     "main": "",
     "scripts": {
-        "fmt": "prettier --write .",
+        "fmt": "biome format . --write && prettier -w ./*.md ./rsx-vscode/*.md ./rsx-language-server/*.md --log-level warn",
         "build:server": "pnpm --filter rsx-language-server build",
         "build:client": "pnpm --filter rsx-vscode build",
-        "build": "pnpm build:server && pnpm build:client"
+        "build": "pnpm build:server && pnpm build:client",
+        "pack": "cd rsx-vscode && vsce package"
     },
     "keywords": [
         "rsx",
@@ -17,6 +18,7 @@
     "author": "michael",
     "license": "MIT",
     "dependencies": {
+        "@biomejs/biome": "^2.1.2",
         "prettier": "^3.6.2"
     }
 }

@@ -16,12 +16,7 @@ export const service = {
                     isIncomplete: true,
                     items: [
                         {
-                            label: 'Hello',
-                            kind: CompletionItemKind.Text,
-                            isIncomplete: false
-                        },
-                        {
-                            label: 'World',
+                            label: 'RsxExample',
                             kind: CompletionItemKind.Text,
                             isIncomplete: false
                         }

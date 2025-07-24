@@ -1,7 +1,7 @@
-import { rsxLanguage } from './plugin'
-import { create as createHtmlService } from 'volar-service-html'
+import { createConnection, createServer, createSimpleProject } from '@volar/language-server/node'
 import { create as createCssService } from 'volar-service-css'
-import { createServer, createConnection, createSimpleProject } from '@volar/language-server/node'
+import { create as createHtmlService } from 'volar-service-html'
+import { rsxLanguage } from './plugin'
 
 const connection = createConnection()
 const server = createServer(connection)
@@ -9,7 +9,10 @@ const server = createServer(connection)
 connection.listen()
 
 connection.onInitialize((params) => {
-    return server.initialize(params, createSimpleProject([rsxLanguage]), [createHtmlService(), createCssService()])
+    return server.initialize(params, createSimpleProject([rsxLanguage]), [
+        createHtmlService(),
+        createCssService()
+    ])
 })
 
 connection.onInitialized(server.initialized)
