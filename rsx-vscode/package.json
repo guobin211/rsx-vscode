@@ -6,13 +6,6 @@
         "Linters"
     ],
     "contributes": {
-        "commands": [
-            {
-                "category": "RSX",
-                "command": "rsx.format",
-                "title": "Format Document"
-            }
-        ],
         "grammars": [
             {
                 "embeddedLanguages": {

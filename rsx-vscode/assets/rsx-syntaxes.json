@@ -28,18 +28,47 @@
                 }
             ]
         },
+        "forbidden-tags": {
+            "patterns": [
+                {
+                    "match": "<template[\\s>]",
+                    "name": "invalid.illegal.forbidden-tag.template.html"
+                },
+                {
+                    "match": "<script[\\s>]",
+                    "name": "invalid.illegal.forbidden-tag.script.html"
+                },
+                {
+                    "match": "<style[\\s>]",
+                    "name": "invalid.illegal.forbidden-tag.style.html"
+                }
+            ]
+        },
+        "forbidden-events": {
+            "patterns": [
+                {
+                    "match": "\\s(on[a-zA-Z]+)=",
+                    "name": "invalid.illegal.event-handler.html",
+                    "captures": {
+                        "1": {
+                            "name": "invalid.illegal.event-attribute.html"
+                        }
+                    }
+                }
+            ]
+        },
         "script-section": {
             "begin": "<script(?:\\s[^>]*)?>",
             "end": "</script>",
             "name": "meta.embedded.block.typescript.rsx",
             "beginCaptures": {
                 "0": {
-                    "name": "punctuation.definition.tag.begin.html"
+                    "name": "entity.name.tag.script.html"
                 }
             },
             "endCaptures": {
                 "0": {
-                    "name": "punctuation.definition.tag.end.html"
+                    "name": "entity.name.tag.script.html"
                 }
             },
             "contentName": "source.ts",
@@ -55,12 +84,12 @@
             "name": "meta.embedded.block.handlebars.rsx",
             "beginCaptures": {
                 "0": {
-                    "name": "punctuation.definition.tag.begin.html"
+                    "name": "entity.name.tag.template.html"
                 }
             },
             "endCaptures": {
                 "0": {
-                    "name": "punctuation.definition.tag.end.html"
+                    "name": "entity.name.tag.template.html"
                 }
             },
             "contentName": "text.html.handlebars",
@@ -70,6 +99,12 @@
                 },
                 {
                     "include": "#svelte-blocks"
+                },
+                {
+                    "include": "#forbidden-tags"
+                },
+                {
+                    "include": "#forbidden-events"
                 },
                 {
                     "include": "text.html.basic"
@@ -82,12 +117,12 @@
             "name": "meta.embedded.block.scss.rsx",
             "beginCaptures": {
                 "0": {
-                    "name": "punctuation.definition.tag.begin.html"
+                    "name": "entity.name.tag.style.html"
                 }
             },
             "endCaptures": {
                 "0": {
-                    "name": "punctuation.definition.tag.end.html"
+                    "name": "entity.name.tag.style.html"
                 }
             },
             "contentName": "source.scss",
@@ -105,26 +140,6 @@
         },
         "handlebars-expressions": {
             "patterns": [
-                {
-                    "begin": "\\{\\{\\{",
-                    "end": "\\}\\}\\}",
-                    "name": "markup.raw.handlebars",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.block.begin.handlebars"
-                        }
-                    },
-                    "endCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.block.end.handlebars"
-                        }
-                    },
-                    "patterns": [
-                        {
-                            "include": "#handlebars-content"
-                        }
-                    ]
-                },
                 {
                     "begin": "\\{\\{",
                     "end": "\\}\\}",
@@ -144,6 +159,10 @@
                             "include": "#handlebars-content"
                         }
                     ]
+                },
+                {
+                    "match": "\\{[^{].*?\\}",
+                    "name": "invalid.illegal.single-brace.handlebars"
                 },
                 {
                     "match": "client=\"(react|vue|svelte)\"",
@@ -234,6 +253,12 @@
                             "include": "#handlebars-expressions"
                         },
                         {
+                            "include": "#forbidden-tags"
+                        },
+                        {
+                            "include": "#forbidden-events"
+                        },
+                        {
                             "include": "text.html.basic"
                         }
                     ]
@@ -255,6 +280,12 @@
                     "patterns": [
                         {
                             "include": "#handlebars-expressions"
+                        },
+                        {
+                            "include": "#forbidden-tags"
+                        },
+                        {
+                            "include": "#forbidden-events"
                         },
                         {
                             "include": "text.html.basic"
@@ -284,6 +315,12 @@
                             "include": "#handlebars-expressions"
                         },
                         {
+                            "include": "#forbidden-tags"
+                        },
+                        {
+                            "include": "#forbidden-events"
+                        },
+                        {
                             "include": "text.html.basic"
                         }
                     ]
@@ -301,36 +338,48 @@
         "scss-content": {
             "patterns": [
                 {
-                    "match": "\\b(?:color|background|background-color|border|margin|padding|width|height|font-size|font-family|font-weight|display|flex|grid|position|top|left|right|bottom|z-index|opacity|transform|transition|animation)\\b",
+                    "match": "\\b(?:color|background|background-color|border|margin|padding|width|height|font-size|font-family|font-weight|display|flex|grid|position|top|left|right|bottom|z-index|opacity|transform|transition|animation|cursor|text-align|border-radius|box-shadow|outline)\\b",
                     "name": "support.type.property-name.css"
                 },
                 {
-                    "match": "\\b(?:auto|none|inherit|initial|unset|normal|bold|italic|underline|overline|line-through|uppercase|lowercase|capitalize)\\b",
+                    "match": "\\b(?:auto|none|inherit|initial|unset|normal|bold|italic|underline|overline|line-through|uppercase|lowercase|capitalize|center|left|right|flex|block|inline|pointer|relative|absolute|fixed|static)\\b",
                     "name": "support.constant.property-value.css"
                 },
                 {
-                    "match": "\\b(?:px|em|rem|%|vh|vw|vmin|vmax|pt|pc|in|cm|mm|ex|ch|fr)\\b",
+                    "match": "\\b(?:px|em|rem|%|vh|vw|vmin|vmax|pt|pc|in|cm|mm|ex|ch|fr|s|ms|deg|rad|turn)\\b",
                     "name": "keyword.other.unit.css"
                 },
                 {
                     "match": "#[0-9a-fA-F]{3,8}\\b",
-                    "name": "constant.other.color.rgb-value.css"
+                    "name": "constant.other.color.hex.css"
                 },
                 {
-                    "match": "\\b(?:rgb|rgba|hsl|hsla)\\s*\\(",
-                    "name": "support.function.misc.css"
+                    "match": "\\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch)\\s*\\(",
+                    "name": "support.function.color.css"
+                },
+                {
+                    "match": "\\b(?:red|green|blue|white|black|yellow|orange|purple|pink|gray|grey|transparent|currentColor)\\b",
+                    "name": "support.constant.color.w3c.css"
                 },
                 {
                     "begin": "/\\*",
                     "end": "\\*/",
-                    "name": "comment.block.css"
+                    "name": "comment.block.scss"
                 },
                 {
                     "match": "//.*$",
                     "name": "comment.line.double-slash.scss"
                 },
                 {
-                    "match": "&(?:[:\\w-]+)?",
+                    "match": "&\\s*(?::[a-zA-Z-]+(?:\\([^)]*\\))?)+",
+                    "name": "entity.other.attribute-name.pseudo-class.scss"
+                },
+                {
+                    "match": "&\\s*::[a-zA-Z-]+",
+                    "name": "entity.other.attribute-name.pseudo-element.scss"
+                },
+                {
+                    "match": "&(?:[.#\\w-]+)*",
                     "name": "entity.other.attribute-name.parent-selector.scss"
                 },
                 {
@@ -338,13 +387,17 @@
                     "name": "variable.scss"
                 },
                 {
-                    "match": "@(?:import|include|mixin|function|extend|if|else|for|each|while|return|warn|error|debug)\\b",
+                    "match": "@(?:import|include|mixin|function|extend|if|else|for|each|while|return|warn|error|debug|media|keyframes|at-root)\\b",
                     "name": "keyword.control.at-rule.scss"
+                },
+                {
+                    "match": "\\b[0-9]+(?:\\.[0-9]+)?",
+                    "name": "constant.numeric.scss"
                 },
                 {
                     "begin": "\\{",
                     "end": "\\}",
-                    "name": "meta.property-list.css",
+                    "name": "meta.property-list.scss",
                     "patterns": [
                         {
                             "include": "#scss-content"
@@ -352,42 +405,55 @@
                     ]
                 },
                 {
-                    "match": "[a-zA-Z_-][a-zA-Z0-9_-]*(?=\\s*:)",
-                    "name": "support.type.property-name.css"
+                    "match": "([a-zA-Z_-][a-zA-Z0-9_-]*)\\s*(?=:)",
+                    "name": "support.type.property-name.scss",
+                    "captures": {
+                        "1": {
+                            "name": "support.type.property-name.scss"
+                        }
+                    }
                 },
                 {
                     "match": ":",
-                    "name": "punctuation.separator.key-value.css"
+                    "name": "punctuation.separator.key-value.scss"
                 },
                 {
                     "match": ";",
-                    "name": "punctuation.terminator.rule.css"
+                    "name": "punctuation.terminator.rule.scss"
                 },
                 {
                     "begin": "\"",
                     "end": "\"",
-                    "name": "string.quoted.double.css",
+                    "name": "string.quoted.double.scss",
                     "patterns": [
                         {
                             "match": "\\\\.",
-                            "name": "constant.character.escape.css"
+                            "name": "constant.character.escape.scss"
                         }
                     ]
                 },
                 {
                     "begin": "'",
                     "end": "'",
-                    "name": "string.quoted.single.css",
+                    "name": "string.quoted.single.scss",
                     "patterns": [
                         {
                             "match": "\\\\.",
-                            "name": "constant.character.escape.css"
+                            "name": "constant.character.escape.scss"
                         }
                     ]
                 },
                 {
-                    "match": "\\b[0-9]+(?:\\.[0-9]+)?",
-                    "name": "constant.numeric.css"
+                    "match": "([a-zA-Z_-][a-zA-Z0-9_-]*)(?=\\s*\\{)",
+                    "name": "entity.name.tag.scss"
+                },
+                {
+                    "match": "\\.[a-zA-Z_-][a-zA-Z0-9_-]*",
+                    "name": "entity.other.attribute-name.class.scss"
+                },
+                {
+                    "match": "#[a-zA-Z_-][a-zA-Z0-9_-]*",
+                    "name": "entity.other.attribute-name.id.scss"
                 }
             ]
         }

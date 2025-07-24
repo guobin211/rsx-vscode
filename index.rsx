@@ -115,17 +115,15 @@ export default {
                     <label>邮箱:</label>
                     <span>{{ props.user.email }}</span>
                 </div>
-                <button onclick="toggleEdit()" class="edit-btn">编辑</button>
             </div>
         {{:else}}
-            <form class="edit-form" onsubmit="saveUser()">
+            <form class="edit-form">
                 <div class="form-group">
                     <label for="name">姓名:</label>
                     <input
                         type="text"
                         id="name"
                         value="{{ editForm.name }}"
-                        onchange="editForm.name = event.target.value"
                     />
                 </div>
                 <div class="form-group">
@@ -134,12 +132,9 @@ export default {
                         type="email"
                         id="email"
                         value="{{ editForm.email }}"
-                        onchange="editForm.email = event.target.value"
                     />
                 </div>
                 <div class="form-actions">
-                    <button type="submit" class="save-btn">保存</button>
-                    <button type="button" onclick="toggleEdit()" class="cancel-btn">取消</button>
                 </div>
             </form>
         {{/if}}
