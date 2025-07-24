@@ -6,17 +6,26 @@
         "Linters"
     ],
     "contributes": {
+        "commands": [
+            {
+                "category": "RSX",
+                "command": "rsx.format",
+                "title": "Format Document"
+            }
+        ],
         "grammars": [
             {
                 "embeddedLanguages": {
-                    "source.rust.embedded.rsx": "rust",
-                    "source.ts.embedded.rsx": "typescript",
-                    "text.html.handlebars.embedded.rsx": "html",
-                    "source.scss.embedded.rsx": "scss",
-                    "meta.embedded.block.rust.rsx": "rust",
-                    "meta.embedded.block.typescript.rsx": "typescript",
                     "meta.embedded.block.handlebars.rsx": "html",
-                    "meta.embedded.block.scss.rsx": "scss"
+                    "meta.embedded.block.rust.rsx": "rust",
+                    "meta.embedded.block.scss.rsx": "scss",
+                    "meta.embedded.block.typescript.rsx": "typescript",
+                    "meta.html-section.rsx": "html",
+                    "source.css": "css",
+                    "source.rust.embedded.rsx": "rust",
+                    "source.scss": "scss",
+                    "source.ts": "typescript",
+                    "text.html.handlebars": "html"
                 },
                 "language": "rsx",
                 "path": "assets/rsx-syntaxes.json",
@@ -52,6 +61,12 @@
                 "mimetypes": [
                     "text/x-rsx"
                 ]
+            }
+        ],
+        "snippets": [
+            {
+                "language": "rsx",
+                "path": "assets/rsx-snippets.json"
             }
         ]
     },
@@ -100,7 +115,7 @@
         "build:server": "cd ../server && pnpm build",
         "dev": "node build.mjs --watch",
         "lint": "tsc -p tsconfig.json --noEmit",
-        "release": "vsce package"
+        "pack": "vsce package"
     },
     "type": "commonjs",
     "version": "0.1.0",

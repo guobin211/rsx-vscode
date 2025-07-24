@@ -1,0 +1,158 @@
+{
+    "Client Component": {
+        "body": [
+            "<${1:ComponentName} client=\"${2|react,vue,svelte|}\" ${3:props}=\"{{${4:data}}}\"></${1:ComponentName}>"
+        ],
+        "description": "客户端组件",
+        "prefix": "client"
+    },
+    "Each Block": {
+        "body": ["{{#each ${1:items} as ${2:item}}}", "\t${3:<!-- 循环内容 -->}", "{{/each}}"],
+        "description": "列表渲染块",
+        "prefix": "each"
+    },
+    "Each Block with Index": {
+        "body": [
+            "{{#each ${1:items} as ${2:item}, ${3:index}}}",
+            "\t${4:<!-- 循环内容 -->}",
+            "{{/each}}"
+        ],
+        "description": "带索引的列表渲染块",
+        "prefix": "eachi"
+    },
+    "HTML Output": {
+        "body": ["{{@html ${1:htmlContent}}}"],
+        "description": "HTML内容输出",
+        "prefix": "html"
+    },
+    "If Block": {
+        "body": ["{{#if ${1:condition}}}", "\t${2:<!-- 内容 -->}", "{{/if}}"],
+        "description": "条件渲染块",
+        "prefix": "if"
+    },
+    "If Else Block": {
+        "body": [
+            "{{#if ${1:condition}}}",
+            "\t${2:<!-- if内容 -->}",
+            "{{:else}}",
+            "\t${3:<!-- else内容 -->}",
+            "{{/if}}"
+        ],
+        "description": "条件渲染块（带else）",
+        "prefix": "ifelse"
+    },
+    "Import Statement": {
+        "body": ["import ${1:name} from '${2:path}';"],
+        "description": "导入语句",
+        "prefix": "import"
+    },
+    "Props Interface": {
+        "body": [
+            "interface Props {",
+            "\t${1:// 属性定义}",
+            "}",
+            "",
+            "const props = defineProps<Props>({${2:}});"
+        ],
+        "description": "组件属性接口",
+        "prefix": "props"
+    },
+    "RSX File Template": {
+        "body": [
+            "---",
+            "// Rust部分：服务端逻辑",
+            "use rsx::{Request, Response};",
+            "",
+            "async fn get_server_side_props(req: Request) -> Response {",
+            "\tResponse::json!({",
+            "\t\t\"code\": 0,",
+            "\t\t\"data\": {},",
+            "\t})",
+            "}",
+            "---",
+            "",
+            "<script>",
+            "// JavaScript/TypeScript部分",
+            "import { defineProps } from 'rsx';",
+            "",
+            "interface Props {",
+            "\t// 定义组件属性",
+            "}",
+            "",
+            "const props = defineProps<Props>({});",
+            "",
+            "export default {",
+            "\tcomponents: [],",
+            "}",
+            "</script>",
+            "",
+            "<template>",
+            "\t<!-- Template部分：handlebars模板 -->",
+            "\t<div>",
+            "\t\t<h1>${1:Hello RSX!}</h1>",
+            "\t</div>",
+            "</template>",
+            "",
+            "<style>",
+            "/* Style部分：SCSS样式 */",
+            "div {",
+            "\tpadding: 20px;",
+            "\t",
+            "\th1 {",
+            "\t\tcolor: #333;",
+            "\t\tfont-size: 24px;",
+            "\t}",
+            "}",
+            "</style>"
+        ],
+        "description": "RSX文件模板",
+        "prefix": "rsx"
+    },
+    "Response JSON": {
+        "body": [
+            "Response::json!({",
+            "\t\"code\": ${1:0},",
+            "\t\"data\": ${2:{}},",
+            "\t\"message\": \"${3:success}\"",
+            "})"
+        ],
+        "description": "JSON响应",
+        "prefix": "response"
+    },
+    "Rust Function": {
+        "body": [
+            "async fn ${1:function_name}(${2:req: Request}) -> ${3:Response} {",
+            "\t${4:// 函数体}",
+            "\tResponse::json!({",
+            "\t\t\"code\": 0,",
+            "\t\t\"data\": {},",
+            "\t})",
+            "}"
+        ],
+        "description": "Rust异步函数",
+        "prefix": "fn"
+    },
+    "SCSS Nested Rule": {
+        "body": [
+            "${1:selector} {",
+            "\t${2:property}: ${3:value};",
+            "\t",
+            "\t&:${4:hover} {",
+            "\t\t${5:property}: ${6:value};",
+            "\t}",
+            "}"
+        ],
+        "description": "SCSS嵌套规则",
+        "prefix": "nested"
+    },
+    "Use Statement": {
+        "body": ["use ${1:module};"],
+        "description": "Rust use语句",
+        "prefix": "use"
+    },
+    "Variable Interpolation": {
+        "body": ["{{ ${1:variable} }}"],
+        "description": "变量插值",
+        "prefix": "var"
+    }
+}

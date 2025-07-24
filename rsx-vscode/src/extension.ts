@@ -23,9 +23,12 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     const clientOptions: LanguageClientOptions = {
-        documentSelector: [{ scheme: 'file', language: 'rsx' }],
+        documentSelector: [
+            { scheme: 'file', language: 'rsx' },
+            { scheme: 'untitled', language: 'rsx' }
+        ],
         synchronize: {
-            fileEvents: vscode.workspace.createFileSystemWatcher('**/.clientrc')
+            fileEvents: vscode.workspace.createFileSystemWatcher('**/*.rsx')
         }
     }
 
@@ -40,12 +43,95 @@ export function activate(context: vscode.ExtensionContext) {
     // 启动客户端，这也会启动服务器
     client.start()
 
-    // 注册命令
-    const disposable = vscode.commands.registerCommand('rsx.helloWorld', () => {
-        vscode.window.showInformationMessage('Hello World from RSX!')
+    // 注册文档符号提供器
+    registerDocumentSymbolProvider(context)
+}
+
+function registerDocumentSymbolProvider(context: vscode.ExtensionContext) {
+    const symbolProvider = vscode.languages.registerDocumentSymbolProvider('rsx', {
+        provideDocumentSymbols(document: vscode.TextDocument): vscode.DocumentSymbol[] {
+            const symbols: vscode.DocumentSymbol[] = []
+            const text = document.getText()
+            const lines = text.split('\n')
+
+            let currentSection: string | null = null
+            let sectionStart = 0
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim()
+
+                if (line === '---') {
+                    if (currentSection === null) {
+                        currentSection = 'rust'
+                        sectionStart = i
+                    } else if (currentSection === 'rust') {
+                        symbols.push(
+                            new vscode.DocumentSymbol(
+                                'Rust Section',
+                                'Server-side logic',
+                                vscode.SymbolKind.Module,
+                                new vscode.Range(sectionStart, 0, i, 0),
+                                new vscode.Range(sectionStart, 0, i, 0)
+                            )
+                        )
+                        currentSection = null
+                    }
+                } else if (line.startsWith('<script')) {
+                    currentSection = 'script'
+                    sectionStart = i
+                } else if (line === '</script>') {
+                    if (currentSection === 'script') {
+                        symbols.push(
+                            new vscode.DocumentSymbol(
+                                'Script Section',
+                                'Client-side logic',
+                                vscode.SymbolKind.Module,
+                                new vscode.Range(sectionStart, 0, i, line.length),
+                                new vscode.Range(sectionStart, 0, i, line.length)
+                            )
+                        )
+                        currentSection = null
+                    }
+                } else if (line.startsWith('<template')) {
+                    currentSection = 'template'
+                    sectionStart = i
+                } else if (line === '</template>') {
+                    if (currentSection === 'template') {
+                        symbols.push(
+                            new vscode.DocumentSymbol(
+                                'Template Section',
+                                'HTML template',
+                                vscode.SymbolKind.Module,
+                                new vscode.Range(sectionStart, 0, i, line.length),
+                                new vscode.Range(sectionStart, 0, i, line.length)
+                            )
+                        )
+                        currentSection = null
+                    }
+                } else if (line.startsWith('<style')) {
+                    currentSection = 'style'
+                    sectionStart = i
+                } else if (line === '</style>') {
+                    if (currentSection === 'style') {
+                        symbols.push(
+                            new vscode.DocumentSymbol(
+                                'Style Section',
+                                'SCSS styles',
+                                vscode.SymbolKind.Module,
+                                new vscode.Range(sectionStart, 0, i, line.length),
+                                new vscode.Range(sectionStart, 0, i, line.length)
+                            )
+                        )
+                        currentSection = null
+                    }
+                }
+            }
+
+            return symbols
+        }
     })
 
-    context.subscriptions.push(disposable)
+    context.subscriptions.push(symbolProvider)
 }
 
 export function deactivate(): Thenable<void> | undefined {

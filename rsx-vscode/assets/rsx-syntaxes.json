@@ -14,625 +14,380 @@
         },
         {
             "include": "#style-section"
-        },
-        {
-            "include": "#comments"
         }
     ],
     "repository": {
-        "attribute-values": {
+        "rust-section": {
+            "begin": "^---\\s*$",
+            "end": "^---\\s*$",
+            "name": "meta.embedded.block.rust.rsx",
+            "contentName": "source.rust.embedded.rsx",
             "patterns": [
                 {
-                    "begin": "\"",
-                    "end": "\"",
-                    "name": "string.quoted.double.html",
-                    "patterns": [
-                        {
-                            "include": "#handlebars-variables"
-                        }
-                    ]
-                },
-                {
-                    "begin": "'",
-                    "end": "'",
-                    "name": "string.quoted.single.html",
-                    "patterns": [
-                        {
-                            "include": "#handlebars-variables"
-                        }
-                    ]
-                },
-                {
-                    "match": "[^\\s/>]+",
-                    "name": "string.unquoted.html"
+                    "include": "source.rust"
                 }
             ]
         },
-        "client-attribute": {
+        "script-section": {
+            "begin": "<script(?:\\s[^>]*)?>",
+            "end": "</script>",
+            "name": "meta.embedded.block.typescript.rsx",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.tag.begin.html"
+                }
+            },
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.tag.end.html"
+                }
+            },
+            "contentName": "source.ts",
             "patterns": [
                 {
-                    "captures": {
-                        "1": {
-                            "name": "entity.other.attribute-name.html"
-                        },
-                        "2": {
-                            "name": "punctuation.separator.key-value.html"
-                        },
-                        "4": {
-                            "name": "string.quoted.html support.constant.client-type.rsx"
-                        }
-                    },
-                    "match": "\\b(client)\\s*(=)\\s*([\"'])(react|vue|svelte)\\3",
-                    "name": "meta.attribute.client.html.rsx"
+                    "include": "source.ts"
                 }
             ]
         },
-        "comments": {
-            "patterns": [
-                {
-                    "match": "//.*$",
-                    "name": "comment.line.double-slash.rsx"
-                },
-                {
-                    "begin": "/\\*",
-                    "end": "\\*/",
-                    "name": "comment.block.rsx"
+        "template-section": {
+            "begin": "<template(?:\\s[^>]*)?>",
+            "end": "</template>",
+            "name": "meta.embedded.block.handlebars.rsx",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.tag.begin.html"
                 }
-            ]
-        },
-        "handlebars-block-helpers": {
-            "patterns": [
-                {
-                    "begin": "(\\{\\{)(#if)\\s+([^}]+)(\\}\\})",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.block.begin.handlebars"
-                        },
-                        "2": {
-                            "name": "keyword.control.conditional.handlebars"
-                        },
-                        "3": {
-                            "patterns": [
-                                {
-                                    "include": "#handlebars-expression-content"
-                                }
-                            ]
-                        },
-                        "4": {
-                            "name": "punctuation.definition.block.begin.handlebars"
-                        }
-                    },
-                    "end": "(\\{\\{)(/if)(\\}\\})",
-                    "endCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.block.end.handlebars"
-                        },
-                        "2": {
-                            "name": "keyword.control.conditional.handlebars"
-                        },
-                        "3": {
-                            "name": "punctuation.definition.block.end.handlebars"
-                        }
-                    },
-                    "name": "meta.block.if.handlebars.rsx",
-                    "patterns": [
-                        {
-                            "include": "#handlebars-else"
-                        },
-                        {
-                            "include": "#handlebars-template"
-                        }
-                    ]
-                },
-                {
-                    "begin": "(\\{\\{)(#each)\\s+([^}]+?)(\\s+as\\s+([^,}]+)(?:,\\s*([^}]+))?)?(\\}\\})",
-                    "beginCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.block.begin.handlebars"
-                        },
-                        "2": {
-                            "name": "keyword.control.loop.handlebars"
-                        },
-                        "3": {
-                            "name": "variable.other.handlebars"
-                        },
-                        "4": {
-                            "name": "keyword.operator.as.handlebars"
-                        },
-                        "5": {
-                            "name": "variable.parameter.handlebars"
-                        },
-                        "6": {
-                            "name": "variable.parameter.handlebars"
-                        },
-                        "7": {
-                            "name": "punctuation.definition.block.begin.handlebars"
-                        }
-                    },
-                    "end": "(\\{\\{)(/each)(\\}\\})",
-                    "endCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.block.end.handlebars"
-                        },
-                        "2": {
-                            "name": "keyword.control.loop.handlebars"
-                        },
-                        "3": {
-                            "name": "punctuation.definition.block.end.handlebars"
-                        }
-                    },
-                    "name": "meta.block.each.handlebars.rsx",
-                    "patterns": [
-                        {
-                            "include": "#handlebars-template"
-                        }
-                    ]
+            },
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.tag.end.html"
                 }
-            ]
-        },
-        "handlebars-comments": {
+            },
+            "contentName": "text.html.handlebars",
             "patterns": [
                 {
-                    "begin": "\\{\\{!--",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.comment.begin.handlebars"
-                        }
-                    },
-                    "end": "--\\}\\}",
-                    "endCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.comment.end.handlebars"
-                        }
-                    },
-                    "name": "comment.block.handlebars.rsx"
+                    "include": "#handlebars-expressions"
                 },
                 {
-                    "begin": "\\{\\{!",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.comment.begin.handlebars"
-                        }
-                    },
-                    "end": "\\}\\}",
-                    "endCaptures": {
-                        "0": {
-                            "name": "punctuation.definition.comment.end.handlebars"
-                        }
-                    },
-                    "name": "comment.block.handlebars.rsx"
-                }
-            ]
-        },
-        "handlebars-else": {
-            "patterns": [
-                {
-                    "captures": {
-                        "1": {
-                            "name": "punctuation.definition.block.handlebars"
-                        },
-                        "2": {
-                            "name": "keyword.control.conditional.handlebars"
-                        },
-                        "3": {
-                            "patterns": [
-                                {
-                                    "include": "#handlebars-expression-content"
-                                }
-                            ]
-                        },
-                        "4": {
-                            "name": "punctuation.definition.block.handlebars"
-                        }
-                    },
-                    "match": "(\\{\\{)(:else\\s+if)\\s+([^}]+)(\\}\\})",
-                    "name": "meta.else-if.handlebars.rsx"
-                },
-                {
-                    "captures": {
-                        "1": {
-                            "name": "punctuation.definition.block.handlebars"
-                        },
-                        "2": {
-                            "name": "keyword.control.conditional.handlebars"
-                        },
-                        "3": {
-                            "name": "punctuation.definition.block.handlebars"
-                        }
-                    },
-                    "match": "(\\{\\{)(:else)(\\}\\})",
-                    "name": "meta.else.handlebars.rsx"
-                }
-            ]
-        },
-        "handlebars-expression-content": {
-            "patterns": [
-                {
-                    "match": "@html\\b",
-                    "name": "keyword.other.handlebars"
-                },
-                {
-                    "match": "(>|<|>=|<=|==|!=)",
-                    "name": "keyword.operator.comparison.handlebars"
-                },
-                {
-                    "match": "(&&|\\|\\|)",
-                    "name": "keyword.operator.logical.handlebars"
-                },
-                {
-                    "match": "\\b\\d+(\\.\\d+)?\\b",
-                    "name": "constant.numeric.handlebars"
-                },
-                {
-                    "begin": "'",
-                    "end": "'",
-                    "name": "string.quoted.single.handlebars"
-                },
-                {
-                    "begin": "\"",
-                    "end": "\"",
-                    "name": "string.quoted.double.handlebars"
-                },
-                {
-                    "match": "\\b[a-zA-Z_][a-zA-Z0-9_.]*\\b",
-                    "name": "variable.other.handlebars"
-                }
-            ]
-        },
-        "handlebars-raw-html": {
-            "patterns": [
-                {
-                    "captures": {
-                        "1": {
-                            "name": "punctuation.definition.variable.begin.handlebars"
-                        },
-                        "2": {
-                            "name": "keyword.other.handlebars"
-                        },
-                        "3": {
-                            "name": "variable.other.handlebars"
-                        },
-                        "4": {
-                            "name": "punctuation.definition.variable.end.handlebars"
-                        }
-                    },
-                    "match": "(\\{\\{)(@html)\\s+([^}]+)(\\}\\})",
-                    "name": "meta.raw-html.handlebars.rsx"
-                }
-            ]
-        },
-        "handlebars-template": {
-            "patterns": [
-                {
-                    "include": "#handlebars-comments"
-                },
-                {
-                    "include": "#handlebars-block-helpers"
-                },
-                {
-                    "include": "#handlebars-variables"
-                },
-                {
-                    "include": "#handlebars-raw-html"
-                },
-                {
-                    "include": "#template-restricted-tags"
-                },
-                {
-                    "include": "#html-tags"
+                    "include": "#svelte-blocks"
                 },
                 {
                     "include": "text.html.basic"
                 }
             ]
         },
-        "template-restricted-tags": {
+        "style-section": {
+            "begin": "<style(?:\\s[^>]*)?>",
+            "end": "</style>",
+            "name": "meta.embedded.block.scss.rsx",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.tag.begin.html"
+                }
+            },
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.tag.end.html"
+                }
+            },
+            "contentName": "source.scss",
             "patterns": [
                 {
-                    "name": "invalid.illegal.tag.template.rsx",
-                    "match": "</?\\s*(template|script|style)\\b[^>]*>",
-                    "captures": {
-                        "1": {
-                            "name": "invalid.illegal.tag-name.template.rsx"
-                        }
-                    }
+                    "include": "source.scss"
+                },
+                {
+                    "include": "source.css"
+                },
+                {
+                    "include": "#scss-content"
                 }
             ]
         },
-        "handlebars-variables": {
+        "handlebars-expressions": {
             "patterns": [
                 {
+                    "begin": "\\{\\{\\{",
+                    "end": "\\}\\}\\}",
+                    "name": "markup.raw.handlebars",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.block.begin.handlebars"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.block.end.handlebars"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#handlebars-content"
+                        }
+                    ]
+                },
+                {
                     "begin": "\\{\\{",
+                    "end": "\\}\\}",
+                    "name": "markup.other.handlebars",
                     "beginCaptures": {
                         "0": {
                             "name": "punctuation.definition.variable.begin.handlebars"
                         }
                     },
-                    "end": "\\}\\}",
                     "endCaptures": {
                         "0": {
                             "name": "punctuation.definition.variable.end.handlebars"
                         }
                     },
-                    "name": "meta.variable.handlebars.rsx",
                     "patterns": [
                         {
-                            "include": "#handlebars-expression-content"
+                            "include": "#handlebars-content"
                         }
                     ]
-                }
-            ]
-        },
-        "html-attributes": {
-            "patterns": [
+                },
                 {
-                    "begin": "\\b([a-zA-Z0-9-]+)\\s*(=)\\s*",
-                    "beginCaptures": {
-                        "1": {
+                    "match": "client=\"(react|vue|svelte)\"",
+                    "name": "meta.attribute.client.rsx",
+                    "captures": {
+                        "0": {
                             "name": "entity.other.attribute-name.html"
                         },
-                        "2": {
-                            "name": "punctuation.separator.key-value.html"
+                        "1": {
+                            "name": "string.quoted.double.html"
                         }
-                    },
-                    "end": "(?=[\\s/>])",
-                    "name": "meta.attribute.html",
+                    }
+                }
+            ]
+        },
+        "handlebars-content": {
+            "patterns": [
+                {
+                    "match": "@html\\b",
+                    "name": "keyword.control.handlebars"
+                },
+                {
+                    "match": "\\b(?:true|false|null|undefined)\\b",
+                    "name": "constant.language.handlebars"
+                },
+                {
+                    "match": "\\b[0-9]+(?:\\.[0-9]+)?\\b",
+                    "name": "constant.numeric.handlebars"
+                },
+                {
+                    "match": "\\b(?:if|else|each|as|await|then|catch|key)\\b",
+                    "name": "keyword.control.handlebars"
+                },
+                {
+                    "match": "[a-zA-Z_][a-zA-Z0-9_]*(?:\\.[a-zA-Z_][a-zA-Z0-9_]*)*",
+                    "name": "variable.other.handlebars"
+                },
+                {
+                    "match": "\\?|:|\\.|\\[|\\]|>|<|>=|<=|==|!=|&&|\\|\\|",
+                    "name": "keyword.operator.handlebars"
+                },
+                {
+                    "begin": "\"",
+                    "end": "\"",
+                    "name": "string.quoted.double.handlebars",
                     "patterns": [
                         {
-                            "include": "#attribute-values"
+                            "match": "\\\\.",
+                            "name": "constant.character.escape.handlebars"
                         }
                     ]
                 },
                 {
-                    "match": "\\b[a-zA-Z0-9-]+\\b",
-                    "name": "entity.other.attribute-name.html"
+                    "begin": "'",
+                    "end": "'",
+                    "name": "string.quoted.single.handlebars",
+                    "patterns": [
+                        {
+                            "match": "\\\\.",
+                            "name": "constant.character.escape.handlebars"
+                        }
+                    ]
                 }
             ]
         },
-        "html-tags": {
+        "svelte-blocks": {
             "patterns": [
                 {
-                    "begin": "(<)([A-Z][a-zA-Z0-9]*)",
+                    "begin": "\\{\\{#if\\b",
+                    "end": "\\{\\{/if\\}\\}",
+                    "name": "meta.block.conditional.rsx",
                     "beginCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.tag.begin.html"
-                        },
-                        "2": {
-                            "name": "entity.name.tag.component.html"
+                        "0": {
+                            "name": "keyword.control.conditional.begin.rsx"
                         }
                     },
-                    "end": "(/?>)",
                     "endCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.tag.end.html"
+                        "0": {
+                            "name": "keyword.control.conditional.end.rsx"
                         }
                     },
-                    "name": "meta.tag.client-component.html.rsx",
                     "patterns": [
                         {
-                            "include": "#client-attribute"
+                            "match": "\\{\\{:else(?:\\s+if)?\\b[^}]*\\}\\}",
+                            "name": "keyword.control.conditional.else.rsx"
                         },
                         {
-                            "include": "#html-attributes"
+                            "include": "#handlebars-expressions"
+                        },
+                        {
+                            "include": "text.html.basic"
                         }
                     ]
                 },
                 {
-                    "begin": "(<)([a-z][a-zA-Z0-9-]*)",
+                    "begin": "\\{\\{#each\\b",
+                    "end": "\\{\\{/each\\}\\}",
+                    "name": "meta.block.iteration.rsx",
                     "beginCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.tag.begin.html"
-                        },
-                        "2": {
-                            "name": "entity.name.tag.html"
+                        "0": {
+                            "name": "keyword.control.iteration.begin.rsx"
                         }
                     },
-                    "end": "(/?>)",
                     "endCaptures": {
-                        "1": {
-                            "name": "punctuation.definition.tag.end.html"
+                        "0": {
+                            "name": "keyword.control.iteration.end.rsx"
                         }
                     },
-                    "name": "meta.tag.html",
                     "patterns": [
                         {
-                            "include": "#html-attributes"
+                            "include": "#handlebars-expressions"
+                        },
+                        {
+                            "include": "text.html.basic"
                         }
                     ]
                 },
                 {
-                    "captures": {
-                        "1": {
-                            "name": "punctuation.definition.tag.begin.html"
-                        },
-                        "2": {
-                            "name": "entity.name.tag.html"
-                        },
-                        "3": {
-                            "name": "punctuation.definition.tag.end.html"
+                    "begin": "\\{\\{#await\\b",
+                    "end": "\\{\\{/await\\}\\}",
+                    "name": "meta.block.async.rsx",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.async.begin.rsx"
                         }
                     },
-                    "match": "(</)([a-zA-Z0-9-]+)(>)",
-                    "name": "meta.tag.html"
-                }
-            ]
-        },
-        "rust-section": {
-            "begin": "^---\\s*$",
-            "beginCaptures": {
-                "0": {
-                    "name": "punctuation.definition.rust-section.begin.rsx"
-                }
-            },
-            "contentName": "source.rust.embedded.rsx",
-            "end": "^---\\s*$",
-            "endCaptures": {
-                "0": {
-                    "name": "punctuation.definition.rust-section.end.rsx"
-                }
-            },
-            "name": "meta.embedded.block.rust.rsx",
-            "patterns": [
-                {
-                    "include": "#rust-server-functions"
-                },
-                {
-                    "include": "source.rust"
-                }
-            ]
-        },
-        "rust-server-functions": {
-            "patterns": [
-                {
-                    "captures": {
-                        "1": {
-                            "name": "storage.modifier.async.rust keyword.other.fn.rust"
-                        },
-                        "2": {
-                            "name": "entity.name.function.server-side-props.rust.rsx"
+                    "endCaptures": {
+                        "0": {
+                            "name": "keyword.control.async.end.rsx"
                         }
                     },
-                    "match": "\\b(async\\s+fn\\s+)(get_server_side_props)\\s*\\(",
-                    "name": "meta.function.server-side-props.rust.rsx"
-                }
-            ]
-        },
-        "script-section": {
-            "begin": "(<)(script)((?:\\s[^>]*)?)(>)",
-            "beginCaptures": {
-                "1": {
-                    "name": "punctuation.definition.tag.begin.html"
-                },
-                "2": {
-                    "name": "entity.name.tag.script.rsx support.type.builtin.rsx"
-                },
-                "3": {
                     "patterns": [
                         {
-                            "include": "text.html.basic#attribute"
+                            "match": "\\{\\{:(?:then|catch)\\b[^}]*\\}\\}",
+                            "name": "keyword.control.async.rsx"
+                        },
+                        {
+                            "include": "#handlebars-expressions"
+                        },
+                        {
+                            "include": "text.html.basic"
                         }
                     ]
                 },
-                "4": {
-                    "name": "punctuation.definition.tag.end.html"
-                }
-            },
-            "contentName": "source.ts.embedded.rsx",
-            "end": "(</)(script)(>)",
-            "endCaptures": {
-                "1": {
-                    "name": "punctuation.definition.tag.begin.html"
-                },
-                "2": {
-                    "name": "entity.name.tag.script.rsx support.type.builtin.rsx"
-                },
-                "3": {
-                    "name": "punctuation.definition.tag.end.html"
-                }
-            },
-            "name": "meta.embedded.block.typescript.rsx",
-            "patterns": [
                 {
-                    "include": "#typescript-define-props"
+                    "match": "\\{\\{[#/](?:if|each|await|key)\\b[^}]*\\}\\}",
+                    "name": "keyword.control.block.rsx"
                 },
                 {
-                    "include": "source.ts"
+                    "match": "\\{\\{:(?:else|then|catch)\\b[^}]*\\}\\}",
+                    "name": "keyword.control.block.rsx"
                 }
             ]
         },
-        "style-section": {
-            "begin": "(<)(style)((?:\\s[^>]*)?)(>)",
-            "beginCaptures": {
-                "1": {
-                    "name": "punctuation.definition.tag.begin.html"
+        "scss-content": {
+            "patterns": [
+                {
+                    "match": "\\b(?:color|background|background-color|border|margin|padding|width|height|font-size|font-family|font-weight|display|flex|grid|position|top|left|right|bottom|z-index|opacity|transform|transition|animation)\\b",
+                    "name": "support.type.property-name.css"
                 },
-                "2": {
-                    "name": "entity.name.tag.style.rsx support.type.builtin.rsx"
+                {
+                    "match": "\\b(?:auto|none|inherit|initial|unset|normal|bold|italic|underline|overline|line-through|uppercase|lowercase|capitalize)\\b",
+                    "name": "support.constant.property-value.css"
                 },
-                "3": {
+                {
+                    "match": "\\b(?:px|em|rem|%|vh|vw|vmin|vmax|pt|pc|in|cm|mm|ex|ch|fr)\\b",
+                    "name": "keyword.other.unit.css"
+                },
+                {
+                    "match": "#[0-9a-fA-F]{3,8}\\b",
+                    "name": "constant.other.color.rgb-value.css"
+                },
+                {
+                    "match": "\\b(?:rgb|rgba|hsl|hsla)\\s*\\(",
+                    "name": "support.function.misc.css"
+                },
+                {
+                    "begin": "/\\*",
+                    "end": "\\*/",
+                    "name": "comment.block.css"
+                },
+                {
+                    "match": "//.*$",
+                    "name": "comment.line.double-slash.scss"
+                },
+                {
+                    "match": "&(?:[:\\w-]+)?",
+                    "name": "entity.other.attribute-name.parent-selector.scss"
+                },
+                {
+                    "match": "\\$[a-zA-Z_-][a-zA-Z0-9_-]*",
+                    "name": "variable.scss"
+                },
+                {
+                    "match": "@(?:import|include|mixin|function|extend|if|else|for|each|while|return|warn|error|debug)\\b",
+                    "name": "keyword.control.at-rule.scss"
+                },
+                {
+                    "begin": "\\{",
+                    "end": "\\}",
+                    "name": "meta.property-list.css",
                     "patterns": [
                         {
-                            "include": "text.html.basic#attribute"
+                            "include": "#scss-content"
                         }
                     ]
                 },
-                "4": {
-                    "name": "punctuation.definition.tag.end.html"
-                }
-            },
-            "contentName": "source.scss.embedded.rsx",
-            "end": "(</)(style)(>)",
-            "endCaptures": {
-                "1": {
-                    "name": "punctuation.definition.tag.begin.html"
-                },
-                "2": {
-                    "name": "entity.name.tag.style.rsx support.type.builtin.rsx"
-                },
-                "3": {
-                    "name": "punctuation.definition.tag.end.html"
-                }
-            },
-            "name": "meta.embedded.block.scss.rsx",
-            "patterns": [
                 {
-                    "include": "source.scss"
-                }
-            ]
-        },
-        "template-section": {
-            "begin": "(<)(template)((?:\\s[^>]*)?)(>)",
-            "beginCaptures": {
-                "1": {
-                    "name": "punctuation.definition.tag.begin.html"
+                    "match": "[a-zA-Z_-][a-zA-Z0-9_-]*(?=\\s*:)",
+                    "name": "support.type.property-name.css"
                 },
-                "2": {
-                    "name": "entity.name.tag.template.rsx support.type.builtin.rsx"
+                {
+                    "match": ":",
+                    "name": "punctuation.separator.key-value.css"
                 },
-                "3": {
+                {
+                    "match": ";",
+                    "name": "punctuation.terminator.rule.css"
+                },
+                {
+                    "begin": "\"",
+                    "end": "\"",
+                    "name": "string.quoted.double.css",
                     "patterns": [
                         {
-                            "include": "text.html.basic#attribute"
+                            "match": "\\\\.",
+                            "name": "constant.character.escape.css"
                         }
                     ]
                 },
-                "4": {
-                    "name": "punctuation.definition.tag.end.html"
-                }
-            },
-            "contentName": "text.html.handlebars.embedded.rsx",
-            "end": "(</)(template)(>)",
-            "endCaptures": {
-                "1": {
-                    "name": "punctuation.definition.tag.begin.html"
-                },
-                "2": {
-                    "name": "entity.name.tag.template.rsx support.type.builtin.rsx"
-                },
-                "3": {
-                    "name": "punctuation.definition.tag.end.html"
-                }
-            },
-            "name": "meta.embedded.block.handlebars.rsx",
-            "patterns": [
                 {
-                    "include": "#handlebars-template"
-                }
-            ]
-        },
-        "typescript-define-props": {
-            "patterns": [
-                {
-                    "captures": {
-                        "1": {
-                            "name": "entity.name.function.define-props.typescript.rsx"
-                        },
-                        "2": {
-                            "name": "meta.type-parameters.typescript"
+                    "begin": "'",
+                    "end": "'",
+                    "name": "string.quoted.single.css",
+                    "patterns": [
+                        {
+                            "match": "\\\\.",
+                            "name": "constant.character.escape.css"
                         }
-                    },
-                    "match": "\\b(defineProps)(<[^>]*>)?\\s*\\(",
-                    "name": "meta.function.define-props.typescript.rsx"
+                    ]
+                },
+                {
+                    "match": "\\b[0-9]+(?:\\.[0-9]+)?",
+                    "name": "constant.numeric.css"
                 }
             ]
         }
