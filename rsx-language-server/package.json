@@ -1,0 +1,33 @@
+{
+    "bin": {
+        "rsx-language-server": "bin/rsx-language-server.js"
+    },
+    "dependencies": {
+        "@volar/language-core": "^2.4.20",
+        "@volar/language-server": "^2.4.20",
+        "@volar/language-service": "^2.4.20",
+        "@volar/typescript": "~2.4.20",
+        "@volar/vscode": "^2.4.20",
+        "volar-service-css": "volar-2.4",
+        "volar-service-emmet": "volar-2.4",
+        "volar-service-html": "volar-2.4",
+        "volar-service-typescript": "volar-2.4",
+        "vscode-html-languageservice": "^5.5.1",
+        "vscode-languageserver": "^9.0.1",
+        "vscode-languageserver-textdocument": "^1.0.12",
+        "vscode-uri": "^3.1.0"
+    },
+    "description": "rsx language server",
+    "devDependencies": {
+        "@types/node": "^22.16.5",
+        "esbuild": "^0.25.8",
+        "typescript": "^5.8.3"
+    },
+    "license": "MIT",
+    "main": "index.js",
+    "name": "rsx-language-server",
+    "scripts": {
+        "build": "node build.mjs"
+    },
+    "version": "0.2.8"
+}

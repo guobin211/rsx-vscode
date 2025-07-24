@@ -1,7 +1,3 @@
 {
-    "words": [
-        "outdir",
-        "quickfix",
-        "vscodeignore"
-    ]
+    "words": ["outdir", "quickfix", "vscodeignore"]
 }

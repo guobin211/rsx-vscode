@@ -12,5 +12,6 @@ coverage
 .next
 .cache
 .idea
+.zed
 .turbo
 pnpm-lock.yaml

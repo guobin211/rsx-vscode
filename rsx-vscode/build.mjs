@@ -1,3 +1,6 @@
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import esbuild from 'esbuild'
 
 async function build() {
@@ -6,8 +9,7 @@ async function build() {
      */
     const config = {
         entryPoints: {
-            'dist/client': './src/client.ts',
-            'dist/server': './server/src/server.ts'
+            'dist/extension': './src/extension.ts'
         },
         outdir: '.',
         bundle: true,
@@ -30,4 +32,22 @@ async function build() {
     }
 }
 
+async function copyServer() {
+    const dirname = path.dirname(fileURLToPath(import.meta.url))
+    const serverDistPath = path.resolve(dirname, '../rsx-language-server/dist')
+    const files = await fs.readdir(serverDistPath)
+    for (const file of files) {
+        const srcPath = path.join(serverDistPath, file)
+        const destPath = path.join('dist', file)
+        await fs.copyFile(srcPath, destPath)
+    }
+}
+
 await build()
+try {
+    await copyServer()
+} catch (err) {
+    console.error('copyServer.err', err)
+    console.log('\n\n Please run "pnpm run build:server" to build the server first.')
+    process.exit(1)
+}

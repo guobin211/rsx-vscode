@@ -2,12 +2,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Extension",
             "type": "extensionHost",
             "request": "launch",
-            "name": "Launch Client",
             "runtimeExecutable": "${execPath}",
-            "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
-            "outFiles": ["${workspaceRoot}/dist/*.js"]
+            "args": [
+                "--disable-updates",
+                "--disable-workspace-trust",
+                "--profile-temp",
+                "--skip-release-notes",
+                "--skip-welcome",
+                "--extensionDevelopmentPath=${workspaceFolder}/rsx-vscode"
+            ],
+            "outFiles": ["${workspaceFolder}/rsx-vscode/dist/*.js"]
         }
     ]
 }

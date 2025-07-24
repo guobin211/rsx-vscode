@@ -1,0 +1,6 @@
+packages:
+    - rsx-vscode
+    - rsx-language-server
+
+onlyBuiltDependencies:
+    - esbuild
