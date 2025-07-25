@@ -10,9 +10,8 @@ export const rsxLanguage = {
         return undefined
     },
     createVirtualCode(uri, languageId, snapshot) {
-        console.log(`Creating virtual code for ${uri} with language ID ${languageId}`)
         if (languageId === 'rsx') {
-            return new RsxCode(snapshot)
+            return new RsxCode(uri, snapshot)
         }
         return undefined
     },
@@ -32,7 +31,10 @@ class RsxCode implements VirtualCode {
     associatedScriptMappings?: Map<unknown, CodeMapping[]> | undefined
     linkedCodeMappings?: Mapping<unknown>[] | undefined
 
-    constructor(public snapshot: ts.IScriptSnapshot) {
+    constructor(
+        public uri: URI,
+        public snapshot: ts.IScriptSnapshot
+    ) {
         this.onSnapshotUpdated()
         this.mappings = []
     }

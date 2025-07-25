@@ -23,10 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     const clientOptions: LanguageClientOptions = {
-        documentSelector: [
-            { scheme: 'file', language: 'rsx' },
-            { scheme: 'untitled', language: 'rsx' }
-        ],
+        documentSelector: [{ scheme: 'file', language: 'rsx' }],
         synchronize: {
             fileEvents: vscode.workspace.createFileSystemWatcher('**/*.rsx')
         }
@@ -60,7 +57,7 @@ function registerDocumentSymbolProvider(context: vscode.ExtensionContext) {
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i].trim()
 
-                if (line === '---') {
+                if (line === '---') {   
                     if (currentSection === null) {
                         currentSection = 'rust'
                         sectionStart = i
