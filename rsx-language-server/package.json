@@ -8,6 +8,7 @@
         "@volar/language-service": "^2.4.20",
         "@volar/typescript": "~2.4.20",
         "@volar/vscode": "^2.4.20",
+        "glob": "^10.4.5",
         "tree-sitter-rsx": "^0.1",
         "volar-service-css": "volar-2.4",
         "volar-service-emmet": "volar-2.4",

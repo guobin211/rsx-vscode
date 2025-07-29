@@ -2,7 +2,7 @@ import type { CodeMapping, LanguagePlugin, Mapping, VirtualCode } from '@volar/l
 import type ts from 'typescript'
 import type { URI } from 'vscode-uri'
 
-export const rsxLanguage = {
+export const plugin = {
     getLanguageId(uri) {
         if (uri.path.endsWith('.rsx')) {
             return 'rsx'
