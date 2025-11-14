@@ -1,6 +1,12 @@
 packages:
-    - rsx-vscode
-    - rsx-language-server
+  - rsx-vscode
+  - rsx-language-server
 
 onlyBuiltDependencies:
-    - esbuild
+  - esbuild
+  - tree-sitter
+  - tree-sitter-css
+  - tree-sitter-html
+  - tree-sitter-rust
+  - tree-sitter-scss
+  - tree-sitter-typescript

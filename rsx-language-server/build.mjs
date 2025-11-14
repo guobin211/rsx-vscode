@@ -1,4 +1,15 @@
 import esbuild from 'esbuild'
+import fs from 'fs'
+
+const json = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
+const { dependencies } = json
+const external = [
+    ...Object.keys(dependencies),
+    'typescript',
+    'vscode',
+    'vscode-languageserver',
+    'vscode-languageclient'
+]
 
 async function build() {
     /**
@@ -11,7 +22,7 @@ async function build() {
         outdir: '.',
         bundle: true,
         sourcemap: true,
-        external: ['typescript', 'vscode', 'vscode-languageserver', 'vscode-languageclient'],
+        external: external,
         format: 'cjs',
         platform: 'node',
         tsconfig: './tsconfig.json',
