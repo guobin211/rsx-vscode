@@ -1,17 +1,17 @@
-import * as vscode from 'vscode'
+import * as vscode from 'vscode';
 import {
     LanguageClient,
     type LanguageClientOptions,
     type ServerOptions,
     TransportKind
-} from 'vscode-languageclient/node'
+} from 'vscode-languageclient/node';
 
-let client: LanguageClient
+let client: LanguageClient;
 
 export function activate(context: vscode.ExtensionContext) {
     // 语言服务器配置
-    const serverModule = context.asAbsolutePath('dist/server.js')
-    const debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] }
+    const serverModule = context.asAbsolutePath('dist/server.js');
+    const debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] };
 
     const serverOptions: ServerOptions = {
         run: { module: serverModule, transport: TransportKind.ipc },
@@ -20,47 +20,42 @@ export function activate(context: vscode.ExtensionContext) {
             transport: TransportKind.ipc,
             options: debugOptions
         }
-    }
+    };
 
     const clientOptions: LanguageClientOptions = {
         documentSelector: [{ scheme: 'file', language: 'rsx' }],
         synchronize: {
             fileEvents: vscode.workspace.createFileSystemWatcher('**/*.rsx')
         }
-    }
+    };
 
     // 创建语言客户端
-    client = new LanguageClient(
-        'rsxLanguageServer',
-        'RSX Language Server',
-        serverOptions,
-        clientOptions
-    )
+    client = new LanguageClient('rsxLanguageServer', 'RSX Language Server', serverOptions, clientOptions);
 
     // 启动客户端，这也会启动服务器
-    client.start()
+    client.start();
 
     // 注册文档符号提供器
-    registerDocumentSymbolProvider(context)
+    registerDocumentSymbolProvider(context);
 }
 
 function registerDocumentSymbolProvider(context: vscode.ExtensionContext) {
     const symbolProvider = vscode.languages.registerDocumentSymbolProvider('rsx', {
         provideDocumentSymbols(document: vscode.TextDocument): vscode.DocumentSymbol[] {
-            const symbols: vscode.DocumentSymbol[] = []
-            const text = document.getText()
-            const lines = text.split('\n')
+            const symbols: vscode.DocumentSymbol[] = [];
+            const text = document.getText();
+            const lines = text.split('\n');
 
-            let currentSection: string | null = null
-            let sectionStart = 0
+            let currentSection: string | null = null;
+            let sectionStart = 0;
 
             for (let i = 0; i < lines.length; i++) {
-                const line = lines[i].trim()
+                const line = lines[i].trim();
 
-                if (line === '---') {   
+                if (line === '---') {
                     if (currentSection === null) {
-                        currentSection = 'rust'
-                        sectionStart = i
+                        currentSection = 'rust';
+                        sectionStart = i;
                     } else if (currentSection === 'rust') {
                         symbols.push(
                             new vscode.DocumentSymbol(
@@ -70,12 +65,12 @@ function registerDocumentSymbolProvider(context: vscode.ExtensionContext) {
                                 new vscode.Range(sectionStart, 0, i, 0),
                                 new vscode.Range(sectionStart, 0, i, 0)
                             )
-                        )
-                        currentSection = null
+                        );
+                        currentSection = null;
                     }
                 } else if (line.startsWith('<script')) {
-                    currentSection = 'script'
-                    sectionStart = i
+                    currentSection = 'script';
+                    sectionStart = i;
                 } else if (line === '</script>') {
                     if (currentSection === 'script') {
                         symbols.push(
@@ -86,12 +81,12 @@ function registerDocumentSymbolProvider(context: vscode.ExtensionContext) {
                                 new vscode.Range(sectionStart, 0, i, line.length),
                                 new vscode.Range(sectionStart, 0, i, line.length)
                             )
-                        )
-                        currentSection = null
+                        );
+                        currentSection = null;
                     }
                 } else if (line.startsWith('<template')) {
-                    currentSection = 'template'
-                    sectionStart = i
+                    currentSection = 'template';
+                    sectionStart = i;
                 } else if (line === '</template>') {
                     if (currentSection === 'template') {
                         symbols.push(
@@ -102,12 +97,12 @@ function registerDocumentSymbolProvider(context: vscode.ExtensionContext) {
                                 new vscode.Range(sectionStart, 0, i, line.length),
                                 new vscode.Range(sectionStart, 0, i, line.length)
                             )
-                        )
-                        currentSection = null
+                        );
+                        currentSection = null;
                     }
                 } else if (line.startsWith('<style')) {
-                    currentSection = 'style'
-                    sectionStart = i
+                    currentSection = 'style';
+                    sectionStart = i;
                 } else if (line === '</style>') {
                     if (currentSection === 'style') {
                         symbols.push(
@@ -118,22 +113,22 @@ function registerDocumentSymbolProvider(context: vscode.ExtensionContext) {
                                 new vscode.Range(sectionStart, 0, i, line.length),
                                 new vscode.Range(sectionStart, 0, i, line.length)
                             )
-                        )
-                        currentSection = null
+                        );
+                        currentSection = null;
                     }
                 }
             }
 
-            return symbols
+            return symbols;
         }
-    })
+    });
 
-    context.subscriptions.push(symbolProvider)
+    context.subscriptions.push(symbolProvider);
 }
 
 export function deactivate(): Thenable<void> | undefined {
     if (!client) {
-        return undefined
+        return undefined;
     }
-    return client.stop()
+    return client.stop();
 }

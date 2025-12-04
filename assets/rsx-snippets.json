@@ -12,11 +12,7 @@
         "prefix": "each"
     },
     "Each Block with Index": {
-        "body": [
-            "{{#each ${1:items} as ${2:item}, ${3:index}}}",
-            "\t${4:<!-- 循环内容 -->}",
-            "{{/each}}"
-        ],
+        "body": ["{{#each ${1:items} as ${2:item}, ${3:index}}}", "\t${4:<!-- 循环内容 -->}", "{{/each}}"],
         "description": "带索引的列表渲染块",
         "prefix": "eachi"
     },
@@ -47,13 +43,7 @@
         "prefix": "import"
     },
     "Props Interface": {
-        "body": [
-            "interface Props {",
-            "\t${1:// 属性定义}",
-            "}",
-            "",
-            "const props = defineProps<Props>({${2:}});"
-        ],
+        "body": ["interface Props {", "\t${1:// 属性定义}", "}", "", "const props = defineProps<Props>({${2:}});"],
         "description": "组件属性接口",
         "prefix": "props"
     },

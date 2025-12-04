@@ -1,23 +1,120 @@
 {
-    "name": "rsx-vscode-workspace",
-    "version": "0.1.0",
-    "description": "",
-    "main": "",
-    "scripts": {
-        "fmt": "prettier -w ./*.md ./rsx-vscode/*.md ./rsx-language-server/*.md --log-level warn",
-        "build:server": "pnpm --filter rsx-language-server build",
-        "build:client": "pnpm --filter rsx-vscode build",
-        "build": "pnpm build:server && pnpm build:client",
-        "pack": "cd ./rsx-vscode && npx vsce package"
+    "author": "rsx-analyzer",
+    "categories": [
+        "Programming Languages",
+        "Formatters",
+        "Linters"
+    ],
+    "contributes": {
+        "grammars": [
+            {
+                "embeddedLanguages": {
+                    "meta.embedded.block.handlebars.rsx": "html",
+                    "meta.embedded.block.rust.rsx": "rust",
+                    "meta.embedded.block.scss.rsx": "scss",
+                    "meta.embedded.block.typescript.rsx": "typescript",
+                    "meta.html-section.rsx": "html",
+                    "source.css": "css",
+                    "source.rust.embedded.rsx": "rust",
+                    "source.scss": "scss",
+                    "source.ts": "typescript",
+                    "text.html.handlebars": "html"
+                },
+                "language": "rsx",
+                "path": "assets/rsx.tmLanguage.json",
+                "scopeName": "source.rsx",
+                "unbalancedBracketScopes": [
+                    "keyword.operator.relational",
+                    "storage.type.function.arrow",
+                    "keyword.operator.bitwise.shift",
+                    "meta.brace.angle",
+                    "punctuation.definition.tag",
+                    "punctuation.definition.variable.begin.handlebars",
+                    "punctuation.definition.variable.end.handlebars",
+                    "punctuation.definition.block.begin.handlebars",
+                    "punctuation.definition.block.end.handlebars"
+                ]
+            }
+        ],
+        "languages": [
+            {
+                "aliases": [
+                    "RSX",
+                    "rsx"
+                ],
+                "configuration": "assets/language-configuration.json",
+                "extensions": [
+                    ".rsx"
+                ],
+                "icon": {
+                    "dark": "assets/images/light.svg",
+                    "light": "assets/images/dark.svg"
+                },
+                "id": "rsx",
+                "mimetypes": [
+                    "text/x-rsx"
+                ]
+            }
+        ],
+        "snippets": [
+            {
+                "language": "rsx",
+                "path": "assets/rsx-snippets.json"
+            }
+        ]
     },
+    "dependencies": {
+        "@volar/language-server": "^2.4.26",
+        "@volar/vscode": "^2.4.26",
+        "vscode-languageclient": "^9.0.1"
+    },
+    "description": "RSX language support with syntax highlighting for Rust, TypeScript, Handlebars templates, and SCSS styles in a single file",
+    "devDependencies": {
+        "@types/node": "22.16.3",
+        "@types/vscode": "1.88.0",
+        "esbuild": "^0.25.12",
+        "typescript": "^5.9.3"
+    },
+    "displayName": "RSX Language Support",
+    "engines": {
+        "vscode": "^1.88.0"
+    },
+    "icon": "assets/images/logo.png",
     "keywords": [
         "rsx",
-        "vscode",
-        "workspace"
+        "rust",
+        "typescript",
+        "handlebars",
+        "scss",
+        "full-stack",
+        "web-framework",
+        "ssr",
+        "syntax-highlighting",
+        "templates"
     ],
-    "author": "michael",
     "license": "MIT",
-    "devDependencies": {
-        "prettier": "^3.6.2"
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/guobin211/rsx-vscode/blob/main/LICENSE"
+        }
+    ],
+    "main": "./dist/extension.js",
+    "name": "rsx-vscode",
+    "publisher": "rsx-analyzer",
+    "repository": "https://github.com/guobin211/rsx",
+    "scripts": {
+        "build": "node build.mjs",
+        "build:server": "cd ../server && pnpm build",
+        "dev": "node build.mjs --watch",
+        "lint": "tsc -p tsconfig.json --noEmit",
+        "pack": "vsce package"
+    },
+    "type": "commonjs",
+    "version": "0.1.2",
+    "vsce": {
+        "baseImagesUrl": "https://",
+        "dependencies": false,
+        "useYarn": false
     }
 }

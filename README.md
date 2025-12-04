@@ -1,87 +1,139 @@
-# rsx
+# RSX
 
-```html
+### 文件结构
 
+RSX文件使用`.rsx`扩展名，包含四个主要部分：
+
+```rsx
 ---
-use rsx::{Request, Response, Promise};
-use api::user::{UserInfo};
-use api::news::{NewsInfo};
-
-// 服务端请求
-async fn get_server_side_props(req: Request) -> Response {
-    let cookies = req.cookies();
-    let url = req.url();
-    // Promise.all
-    let concurrenceTask = Promise::all!(UserInfo::from_cookies(cookies), NewsInfo::from_url(url));
-    match concurrenceTask().await {
-        Ok(userInfo, newsInfo) {
-            let title = format!("新闻标题: {}", newsInfo.title);
-            // 服务端请求成功
-            return Response::json!({
-                "code": 0,
-                "userInfo": userInfo,
-                "newsInfo": newsInfo,
-                "title": title,
-            });
-        }
-        Err(userErr, newsErr) {
-            // 服务端请求失败
-            return Response::json!({
-                "code": -1,
-                "userInfo": None,
-                "newsInfo": None,
-                "title": "未找到新闻",
-                "error": format!("userErr: {:?}, newsErr: {:?}", userErr, newsErr),
-            });
-        }
-    }
-}
+// Rust部分：服务端逻辑
 ---
 
 <script>
-    import { defineProps } from 'rsx';
-    // ssr components
-    import Meta from '../components/meta.rsx';
-    import Header from '../components/header.rsx';
-    import Footer from '../components/footer.rsx';
-    // csr components
-    import App from '../client/react.app.tsx';
-    // server props
-    const { userInfo, newsInfo, title } = defineProps({});
-    const version = '0.1.0';
-
-    export default {
-        components: [Meta, Header, Footer, App],
-    }
+// JavaScript/TypeScript部分
 </script>
 
 <template>
-    <head>
-        <Meta></Meta>
-        <title>{{title}}</title>
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    </head>
-    <body>
-    <div id="app">
-        <Header userInfo="{{userInfo}}"></Header>
-        <div class="flex">
-            <App client="react"></App>
-        </div>
-        <Footer version="{{version}}"></Footer>
-    </div>
-    </body>
+<!-- Template部分：handlebars模板 -->
 </template>
 
 <style>
-    #app {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-    }
-    .flex {
-        flex: 1;
-    }
+/* Style部分：SCSS样式 */
 </style>
 ```
+
+## Rust部分规范
+
+### 语法规则
+
+- 以`---`开头和结尾
+- 使用Rust语言编写服务端逻辑
+
+## JavaScript/TypeScript部分规范
+
+### 语法规则
+
+- 以`<script>`开头，以`</script>`结尾
+- 使用TypeScript编写客户端逻辑
+
+## Template部分规范
+
+### 基本语法
+
+#### 文本插值
+
+```html
+<template>
+    <h1>Hello, {{ name }}!</h1>
+</template>
+```
+
+#### 条件渲染
+
+```html
+<template>
+    {{#if porridge.temperature > 100}}
+    <p>too hot!</p>
+    {{:else if 80 > porridge.temperature}}
+    <p>too cold!</p>
+    {{:else}}
+    <p>just right!</p>
+    {{/if}}
+</template>
+```
+
+#### 列表渲染
+
+```html
+<template>
+    <ul class="user-list">
+        {{#each users as user, index}}
+        <li class="user-item" data-index="{{ index }}">{{ user.name }}</li>
+        {{/each}}
+    </ul>
+</template>
+```
+
+#### 嵌套循环
+
+```html
+<template>
+    {{ #each categories as category }}
+    <div class="category">
+        <h3>{{ category.name }}</h3>
+        <ul class="items">
+            {{#each category.items as item}}
+            <li>{{ item.name }} - {{ item.price }}</li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/each}}
+</template>
+```
+
+### 样式绑定
+
+```html
+<template>
+    <div class="{{ isActive ? 'active' : 'inactive' }}">
+        <span class="status-{{ status }}">{{ status }}</span>
+    </div>
+</template>
+```
+
+### Raw HTML输出
+
+```html
+<template>
+    <div>{{@html rawHtmlContent}}</div>
+</template>
+```
+
+### 客户端组件
+
+- 使用`client`属性指定组件的类型
+- 使用`client="react"`指定React组件
+- 使用`client="vue"`指定Vue组件
+- 使用`client="svelte"`指定Svelte组件
+
+```html
+<script>
+    import SvelteApp from './svelte/app.tsx';
+    import ReactApp from './react/app.tsx';
+    import VueApp from './vue/app.tsx';
+</script>
+<template>
+    <div>
+        <SvelteApp client="svelte" users="{{users}}"></SvelteApp>
+        <ReactApp client="react" users="{{users}}"></ReactApp>
+        <VueApp client="vue" users="{{users}}"></VueApp>
+    </div>
+</template>
+```
+
+## Style部分规范
+
+### 语法规则
+
+- 以`<style>`开头，以`</style>`结尾
+- 使用SCSS编写样式
