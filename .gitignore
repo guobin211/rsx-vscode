@@ -105,7 +105,6 @@ publish
 uploads
 
 # lockfile
-yarn.lock
 package-lock.json
 vite.config.js.*
 vite.config.ts.*

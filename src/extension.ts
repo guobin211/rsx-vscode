@@ -30,7 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
     };
 
     // 创建语言客户端
-    client = new LanguageClient('rsxLanguageServer', 'RSX Language Server', serverOptions, clientOptions);
+    client = new LanguageClient('RsxLanguageServer', 'RSX Language Server', serverOptions, clientOptions);
 
     // 启动客户端，这也会启动服务器
     client.start();

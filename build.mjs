@@ -34,7 +34,7 @@ async function build() {
 
 async function copyServer() {
     const dirname = path.dirname(fileURLToPath(import.meta.url));
-    const serverDistPath = path.resolve(dirname, '../rsx-language-server/dist');
+    const serverDistPath = path.resolve(dirname, '../../apps/rsx-language-server/dist');
     const files = await fs.readdir(serverDistPath);
     for (const file of files) {
         const srcPath = path.join(serverDistPath, file);
