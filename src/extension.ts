@@ -1,24 +1,81 @@
 import * as vscode from 'vscode';
+import * as cp from 'node:child_process';
 import {
     LanguageClient,
     type LanguageClientOptions,
-    type ServerOptions,
-    TransportKind
+    type Executable
 } from 'vscode-languageclient/node';
+import { logger, LogLevel } from './logger';
 
 let client: LanguageClient;
+let outputChannel: vscode.OutputChannel;
 
-export function activate(context: vscode.ExtensionContext) {
-    // 语言服务器配置
-    const serverModule = context.asAbsolutePath('dist/server.js');
-    const debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] };
+/**
+ * 检查全局是否安装了 rsx-language-server
+ */
+function checkGlobalServer(): boolean {
+    try {
+        // Unix/Linux/macOS
+        cp.execSync('which rsx-language-server', { encoding: 'utf-8', stdio: 'pipe' });
+        return true;
+    } catch {
+        try {
+            // Windows
+            cp.execSync('where rsx-language-server', { encoding: 'utf-8', stdio: 'pipe' });
+            return true;
+        } catch {
+            return false;
+        }
+    }
+}
 
-    const serverOptions: ServerOptions = {
-        run: { module: serverModule, transport: TransportKind.ipc },
-        debug: {
-            module: serverModule,
-            transport: TransportKind.ipc,
-            options: debugOptions
+/**
+ * 提示用户安装 rsx-language-server
+ */
+async function promptInstallServer(): Promise<boolean> {
+    const choice = await vscode.window.showErrorMessage(
+        'RSX Language Server is not installed globally. Would you like to install it?',
+        'Install with npm',
+        'Cancel'
+    );
+
+    if (choice === 'Install with npm') {
+        const terminal = vscode.window.createTerminal('Install RSX Language Server');
+        terminal.show();
+        terminal.sendText('npm install -g rsx-language-server');
+        vscode.window.showInformationMessage('Please restart VSCode after installation completes.');
+        return false;
+    }
+
+    return false;
+}
+
+export async function activate(context: vscode.ExtensionContext) {
+    console.log('RSX extension activate() called');
+
+    // 创建输出通道
+    outputChannel = vscode.window.createOutputChannel('RSX Language Server');
+    outputChannel.appendLine('RSX extension activating...');
+    logger.setOutputChannel(outputChannel);
+
+    logger.init(LogLevel.DEBUG);
+    logger.info('RSX VSCode extension activating');
+
+    // 检查全局是否安装了 rsx-language-server
+    if (!checkGlobalServer()) {
+        logger.error('rsx-language-server not found in global PATH');
+        await promptInstallServer();
+        return;
+    }
+
+    logger.info('Found rsx-language-server in global PATH');
+
+    // 使用全局命令启动语言服务器
+    const serverExecutable: Executable = {
+        command: 'rsx-language-server',
+        args: ['--stdio'],
+        options: {
+            env: process.env
         }
     };
 
@@ -26,17 +83,36 @@ export function activate(context: vscode.ExtensionContext) {
         documentSelector: [{ scheme: 'file', language: 'rsx' }],
         synchronize: {
             fileEvents: vscode.workspace.createFileSystemWatcher('**/*.rsx')
-        }
+        },
+        outputChannel: outputChannel
     };
 
     // 创建语言客户端
-    client = new LanguageClient('RsxLanguageServer', 'RSX Language Server', serverOptions, clientOptions);
+    client = new LanguageClient(
+        'RsxLanguageServer',
+        'RSX Language Server',
+        serverExecutable,
+        clientOptions
+    );
+    logger.info('Language client created');
 
     // 启动客户端，这也会启动服务器
-    client.start();
+    try {
+        await client.start();
+        logger.info('Language client started successfully');
+        vscode.window.showInformationMessage('RSX Language Server started');
+    } catch (err) {
+        logger.error('Failed to start language client', { error: String(err) });
+        vscode.window.showErrorMessage(`RSX: Failed to start language server: ${err}`);
+        return;
+    }
 
     // 注册文档符号提供器
     registerDocumentSymbolProvider(context);
+    logger.info('Document symbol provider registered');
+
+    logger.info('RSX VSCode extension activated');
+    outputChannel.appendLine('RSX extension activated successfully');
 }
 
 function registerDocumentSymbolProvider(context: vscode.ExtensionContext) {
@@ -127,6 +203,15 @@ function registerDocumentSymbolProvider(context: vscode.ExtensionContext) {
 }
 
 export function deactivate(): Thenable<void> | undefined {
+    console.log('RSX extension deactivate() called');
+    logger.info('RSX VSCode extension deactivating');
+    logger.close();
+
+    if (outputChannel) {
+        outputChannel.appendLine('RSX extension deactivating...');
+        outputChannel.dispose();
+    }
+
     if (!client) {
         return undefined;
     }

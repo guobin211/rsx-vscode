@@ -1,6 +1,3 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import esbuild from 'esbuild';
 
 async function build() {
@@ -14,7 +11,7 @@ async function build() {
         outdir: '.',
         bundle: true,
         sourcemap: true,
-        external: ['typescript', 'vscode', 'vscode-languageserver', 'vscode-languageclient'],
+        external: ['vscode'],  // 只排除 vscode,其他依赖全部打包
         format: 'cjs',
         platform: 'node',
         tsconfig: './tsconfig.json',
@@ -32,22 +29,4 @@ async function build() {
     }
 }
 
-async function copyServer() {
-    const dirname = path.dirname(fileURLToPath(import.meta.url));
-    const serverDistPath = path.resolve(dirname, '../../apps/rsx-language-server/dist');
-    const files = await fs.readdir(serverDistPath);
-    for (const file of files) {
-        const srcPath = path.join(serverDistPath, file);
-        const destPath = path.join('dist', file);
-        await fs.copyFile(srcPath, destPath);
-    }
-}
-
 await build();
-try {
-    await copyServer();
-} catch (err) {
-    console.error('copyServer.err', err);
-    console.log('\n\n Please run "pnpm run build:server" to build the server first.');
-    process.exit(1);
-}
